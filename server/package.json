@@ -1,0 +1,23 @@
+{
+    "name": "server",
+    "version": "0.0.1",
+    "description": "Server for Travella",
+    "type": "commonjs",
+    "devDependencies": {
+        "@types/node": "^16.11.10",
+        "nodemon": "^2.0.20",
+        "ts-node": "10.7.0",
+        "typescript": "4.5.2"
+    },
+    "dependencies": {
+        "pg": "^8.4.0",
+        "reflect-metadata": "^0.1.13",
+        "typeorm": "0.3.10"
+    },
+    "scripts": {
+        "start": "ts-node ./dist.index.js",
+        "dev": "NODE_PATH=./src nodemon ./src/index.ts",
+        "watch": "tsc -w",
+        "typeorm": "typeorm-ts-node-commonjs"
+    }
+}
