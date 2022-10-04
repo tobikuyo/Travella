@@ -10,7 +10,7 @@ import {
 import { Experience } from './Experience';
 import { User } from './User';
 
-@Entity({ name: 'reactions' })
+@Entity('reactions')
 @ObjectType()
 export class Reaction extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')

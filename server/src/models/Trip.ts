@@ -14,7 +14,7 @@ import { Comment } from './Comment';
 import { Experience } from './Experience';
 import { User } from './User';
 
-@Entity({ name: 'trips' })
+@Entity('trips')
 @ObjectType()
 export class Trip extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')

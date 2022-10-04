@@ -12,7 +12,7 @@ import {
 import { Reaction } from './Reaction';
 import { Trip } from './Trip';
 
-@Entity({ name: 'users' })
+@Entity('users')
 @ObjectType()
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')

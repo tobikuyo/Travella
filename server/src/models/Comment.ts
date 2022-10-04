@@ -12,7 +12,7 @@ import {
 import { Trip } from './Trip';
 import { User } from './User';
 
-@Entity({ name: 'comments' })
+@Entity('comments')
 @ObjectType()
 export class Comment extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
