@@ -10,16 +10,12 @@ import {
 import { Reaction } from './Reaction';
 import { Trip } from './Trip';
 
-@Entity({ name: 'experiences' })
+@Entity('experiences')
 @ObjectType()
-export class Experience extends BaseEntity {
+export abstract class Experience extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     @Field(() => ID)
     readonly id: string;
-
-    @Column()
-    @Field()
-    category: string;
 
     @Column()
     @Field()
@@ -39,11 +35,11 @@ export class Experience extends BaseEntity {
 
     @Column('float', { nullable: true })
     @Field({ nullable: true })
-    rating?: number;
+    rating: number;
 
     @Column({ name: 'review_count', default: 0 })
     @Field(() => Int, { defaultValue: 0 })
-    reviewCount?: number;
+    reviewCount: number;
 
     @Column({ name: 'price_range', nullable: true })
     @Field({ nullable: true })
@@ -52,10 +48,6 @@ export class Experience extends BaseEntity {
     @Column()
     @Field()
     address: string;
-
-    @Column({ nullable: true })
-    @Field({ nullable: true })
-    cuisine?: string;
 
     @Column({ nullable: true })
     @Field({ nullable: true })
