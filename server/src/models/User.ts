@@ -1,5 +1,6 @@
 import { Comment } from 'models';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { UserType } from 'typeDefs/UserType';
 import {
     BaseEntity,
     Column,
@@ -19,9 +20,9 @@ export class User extends BaseEntity {
     @Field(() => ID)
     readonly id: string;
 
-    @Column({ default: 'registered' })
-    @Field({ defaultValue: 'registered' })
-    type?: string;
+    @Column({ type: 'enum', enum: UserType, default: UserType.Registered })
+    @Field(() => UserType, { defaultValue: UserType.Registered })
+    type?: UserType;
 
     @Column()
     @Field()

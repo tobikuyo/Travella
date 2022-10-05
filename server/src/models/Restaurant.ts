@@ -5,7 +5,7 @@ import { Experience } from './Experience';
 @Entity('restaurants')
 @ObjectType()
 export class Restaurant extends Experience {
-    @Column('simple-array')
+    @Column('simple-array', { nullable: true })
     @Field(() => [String], { nullable: true })
     cuisine?: string[];
 }
