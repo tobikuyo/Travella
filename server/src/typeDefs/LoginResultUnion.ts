@@ -1,14 +1,14 @@
-import { createUnionType, Field, ID, ObjectType } from 'type-graphql';
+import { createUnionType, Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 class LoginSuccess {
     @Field()
-    token: string;
+    accessToken: string;
 }
 
 @ObjectType()
 class LoginError {
-    @Field(() => ID)
+    @Field()
     message: string;
 }
 
@@ -16,7 +16,7 @@ export const LoginResultUnion = createUnionType({
     name: 'LoginResult',
     types: () => [LoginSuccess, LoginError] as const,
     resolveType: value => {
-        if ('token' in value) return LoginSuccess;
+        if ('accessToken' in value) return LoginSuccess;
         if ('message' in value) return LoginError;
         return undefined;
     }
