@@ -4,7 +4,10 @@ import { checkAuthorization } from 'auth/checkAuthorization';
 import { createAccessToken, createRefreshToken } from 'auth/createTokens';
 import { AppContext } from 'interfaces/AppContext';
 import { User } from 'models';
-import { LoginResultUnion, RegisterResult, RegisterUserInput, UserType } from 'typeDefs';
+import { RegisterResult } from 'typeDefs';
+import { UserType } from 'typeDefs/enums/UserType';
+import { RegisterUserInput } from 'typeDefs/inputs';
+import { LoginResultUnion } from 'typeDefs/unions';
 
 @Resolver()
 export class UserResolver {

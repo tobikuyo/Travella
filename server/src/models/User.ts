@@ -1,6 +1,4 @@
-import { Comment } from 'models';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { UserType } from 'typeDefs/UserType';
 import {
     BaseEntity,
     Column,
@@ -10,6 +8,8 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from 'typeorm';
+import { Comment } from 'models';
+import { UserType } from 'typeDefs/enums/UserType';
 import { Reaction } from './Reaction';
 import { Trip } from './Trip';
 
