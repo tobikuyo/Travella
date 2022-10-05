@@ -1,8 +1,9 @@
-import { hash } from 'bcryptjs';
-import { User } from 'models/User';
-import { Arg, Mutation, Resolver } from 'type-graphql';
-import { RegisterResult } from 'typeDefs/RegisterResult';
-import { RegisterUserInput } from 'typeDefs/RegisterUserInput';
+import { compare, hash } from 'bcryptjs';
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { createAccessToken, createRefreshToken } from 'auth/createTokens';
+import { AppContext } from 'interfaces/AppContext';
+import { User } from 'models';
+import { LoginResultUnion, RegisterResult, RegisterUserInput, UserType } from 'typeDefs';
 
 @Resolver()
 export class UserResolver {
@@ -21,6 +22,30 @@ export class UserResolver {
         } catch (error) {
             console.error('Register User Error', error);
             return { success: false, message: error.message };
+        }
+    }
+
+    @Mutation(() => LoginResultUnion)
+    async login(
+        @Arg('email') email: string,
+        @Arg('password') password: string,
+        @Ctx() { res }: AppContext
+    ): Promise<typeof LoginResultUnion> {
+        try {
+            const user = await User.findOneBy({ email });
+            if (!user) throw new Error('There is no  user with this email');
+            if (user.type === UserType.Temp) {
+                throw new Error("You can't sign in with a temporary account");
+            }
+
+            const validPassword = await compare(password, user.password!);
+            if (!validPassword) throw new Error('Incorrect password');
+
+            res.cookie('gid', createRefreshToken(user), { httpOnly: true });
+            return { accessToken: createAccessToken(user) };
+        } catch (error) {
+            console.error('Login User Error', error);
+            return { message: error.message };
         }
     }
 }
