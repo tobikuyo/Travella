@@ -1,5 +1,6 @@
 import { compare, hash } from 'bcryptjs';
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { checkAuthorization } from 'auth/checkAuthorization';
 import { createAccessToken, createRefreshToken } from 'auth/createTokens';
 import { AppContext } from 'interfaces/AppContext';
 import { User } from 'models';
@@ -7,6 +8,14 @@ import { LoginResultUnion, RegisterResult, RegisterUserInput, UserType } from 't
 
 @Resolver()
 export class UserResolver {
+    @Query(() => User)
+    @UseMiddleware(checkAuthorization)
+    async currentUser(@Ctx() { payload }: AppContext): Promise<User | null> {
+        const id = payload?.id;
+        const currentUser = await User.findOneBy({ id });
+        return currentUser;
+    }
+
     @Mutation(() => RegisterResult)
     async register(
         @Arg('input') registerInput: RegisterUserInput
