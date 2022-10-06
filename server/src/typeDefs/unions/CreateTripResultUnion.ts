@@ -1,4 +1,5 @@
 import { createUnionType, Field, ID, ObjectType } from 'type-graphql';
+import { ErrorMessage } from 'typeDefs';
 
 @ObjectType()
 class CreateTripSuccess {
@@ -6,18 +7,12 @@ class CreateTripSuccess {
     id: string;
 }
 
-@ObjectType()
-class CreateTripError {
-    @Field()
-    message: string;
-}
-
 export const CreateTripResultUnion = createUnionType({
     name: 'CreateTripResult',
-    types: () => [CreateTripSuccess, CreateTripError] as const,
+    types: () => [CreateTripSuccess, ErrorMessage] as const,
     resolveType: value => {
         if ('id' in value) return CreateTripSuccess;
-        if ('message' in value) return CreateTripError;
+        if ('message' in value) return ErrorMessage;
         return undefined;
     }
 });

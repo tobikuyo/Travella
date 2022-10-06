@@ -44,19 +44,19 @@ export class Trip extends BaseEntity {
     @Field(() => [User])
     participants?: User[];
 
-    @OneToMany(() => Restaurant, restaurant => restaurant.trip, { nullable: true })
-    @Field(() => [Restaurant], { nullable: true })
+    @OneToMany(() => Restaurant, restaurant => restaurant.trip)
+    @Field(() => [Restaurant])
     restaurants?: Restaurant[];
 
-    @OneToMany(() => Hotel, hotel => hotel.trip, { nullable: true })
-    @Field(() => [Hotel], { nullable: true })
+    @OneToMany(() => Hotel, hotel => hotel.trip)
+    @Field(() => [Hotel])
     hotels?: Hotel[];
 
-    @OneToMany(() => Attraction, attraction => attraction.trip, { nullable: true })
-    @Field(() => [Attraction], { nullable: true })
+    @OneToMany(() => Attraction, attraction => attraction.trip)
+    @Field(() => [Attraction])
     attractions?: Attraction[];
 
-    @OneToMany(() => Comment, comment => comment.trip, { nullable: true })
-    @Field(() => [Comment], { nullable: true })
+    @OneToMany(() => Comment, comment => comment.trip)
+    @Field(() => [Comment])
     comments?: Comment[];
 }
