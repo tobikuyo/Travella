@@ -1,3 +1,4 @@
+import { DataSource } from 'typeorm';
 import {
     Attraction,
     Comment,
@@ -8,8 +9,6 @@ import {
     Trip,
     User
 } from 'models';
-import 'reflect-metadata';
-import { DataSource } from 'typeorm';
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
