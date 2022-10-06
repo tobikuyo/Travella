@@ -4,11 +4,11 @@ import { checkAuthorization } from 'auth/checkAuthorization';
 import { createAccessToken, createRefreshToken } from 'auth/createTokens';
 import { getCurrentUser } from 'auth/getCurrentUser';
 import { AppContext } from 'interfaces/AppContext';
-import { User } from 'models';
+import { Trip, User } from 'models';
 import { RegisterResult } from 'typeDefs';
 import { UserType } from 'typeDefs/enums/UserType';
-import { RegisterUserInput } from 'typeDefs/inputs';
-import { LoginResultUnion } from 'typeDefs/unions';
+import { CreateTripInput, RegisterUserInput } from 'typeDefs/inputs';
+import { CreateTripResultUnion, LoginResultUnion } from 'typeDefs/unions';
 
 @Resolver()
 export class UserResolver {
@@ -16,8 +16,8 @@ export class UserResolver {
     @Query(() => User)
     @UseMiddleware(checkAuthorization)
     async currentUser(@Ctx() { payload }: AppContext): Promise<User | null> {
-        const id = payload?.id;
-        const currentUser = await User.findOneBy({ id });
+        if (!payload) return null;
+        const currentUser = await getCurrentUser(payload);
         return currentUser;
     }
 
@@ -61,6 +61,28 @@ export class UserResolver {
             return { accessToken: createAccessToken(user) };
         } catch (error) {
             console.error('Login User Error', error);
+            return { message: error.message };
+        }
+    }
+
+    // Create trip
+    @Mutation(() => CreateTripResultUnion)
+    @UseMiddleware(checkAuthorization)
+    async createTrip(
+        @Arg('input') createTripInput: CreateTripInput,
+        @Ctx() { payload }: AppContext
+    ) {
+        try {
+            if (!payload) return { message: 'Please provide valid payload' };
+            const user = await getCurrentUser(payload);
+            const tripInsertResult = await Trip.insert({
+                ...createTripInput,
+                creator: user
+            });
+            const { id } = tripInsertResult.identifiers[0];
+            return { id };
+        } catch (error) {
+            console.error('Create Trip Error', error);
             return { message: error.message };
         }
     }
