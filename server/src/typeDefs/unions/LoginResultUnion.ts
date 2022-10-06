@@ -7,7 +7,7 @@ class LoginSuccess {
     accessToken: string;
 }
 
-export const LoginResultUnion = createUnionType({
+export const LoginResult = createUnionType({
     name: 'LoginResult',
     types: () => [LoginSuccess, ErrorMessage] as const,
     resolveType: value => {

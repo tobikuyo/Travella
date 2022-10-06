@@ -7,7 +7,7 @@ class CreateTripSuccess {
     id: string;
 }
 
-export const CreateTripResultUnion = createUnionType({
+export const CreateTripResult = createUnionType({
     name: 'CreateTripResult',
     types: () => [CreateTripSuccess, ErrorMessage] as const,
     resolveType: value => {

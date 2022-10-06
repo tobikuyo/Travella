@@ -2,7 +2,7 @@ import { createUnionType } from 'type-graphql';
 import { Trip } from 'models';
 import { ErrorMessage } from 'typeDefs';
 
-export const GetTripResultUnion = createUnionType({
+export const GetTripResult = createUnionType({
     name: 'GetTripResult',
     types: () => [Trip, ErrorMessage] as const,
     resolveType: value => {

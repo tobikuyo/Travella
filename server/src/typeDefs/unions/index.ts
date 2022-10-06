@@ -1,2 +1,3 @@
-export { CreateTripResultUnion } from './CreateTripResultUnion';
-export { LoginResultUnion } from './LoginResultUnion';
+export { CreateTripResult } from './CreateTripResultUnion';
+export { GetTripResult } from './GetTripResultUnion';
+export { LoginResult } from './LoginResultUnion';

@@ -8,7 +8,7 @@ import { Trip, User } from 'models';
 import { RegisterResult } from 'typeDefs';
 import { UserType } from 'typeDefs/enums/UserType';
 import { CreateTripInput, RegisterUserInput } from 'typeDefs/inputs';
-import { CreateTripResultUnion, LoginResultUnion } from 'typeDefs/unions';
+import { CreateTripResult, LoginResult } from 'typeDefs/unions';
 
 @Resolver()
 export class UserResolver {
@@ -41,12 +41,12 @@ export class UserResolver {
     }
 
     // Login user
-    @Mutation(() => LoginResultUnion)
+    @Mutation(() => LoginResult)
     async loginUser(
         @Arg('email') email: string,
         @Arg('password') password: string,
         @Ctx() { res }: AppContext
-    ): Promise<typeof LoginResultUnion> {
+    ): Promise<typeof LoginResult> {
         try {
             const user = await User.findOneBy({ email });
             if (!user) throw new Error('There is no  user with this email');
@@ -66,7 +66,7 @@ export class UserResolver {
     }
 
     // Create trip
-    @Mutation(() => CreateTripResultUnion)
+    @Mutation(() => CreateTripResult)
     @UseMiddleware(checkAuthorization)
     async createTrip(
         @Arg('input') createTripInput: CreateTripInput,
