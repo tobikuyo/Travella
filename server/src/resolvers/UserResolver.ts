@@ -2,7 +2,7 @@ import { compare, hash } from 'bcryptjs';
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { checkAuthorization } from 'auth/checkAuthorization';
 import { createAccessToken, createRefreshToken } from 'auth/createTokens';
-import { getCurrentUser } from 'auth/getCurrentUser';
+import { getCurrentUser } from 'helpers/getCurrentUser';
 import { AppContext } from 'interfaces/AppContext';
 import { Trip, User } from 'models';
 import { RegisterResult } from 'typeDefs';
