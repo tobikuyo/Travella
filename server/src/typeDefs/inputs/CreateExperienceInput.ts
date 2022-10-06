@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from 'type-graphql';
 
 @InputType()
-export class CreateRestaurantInput {
+export class CreateExperienceInput {
     @Field()
     name: string;
 
@@ -34,4 +34,10 @@ export class CreateRestaurantInput {
 
     @Field(() => [String], { nullable: true })
     cuisine?: string[];
+
+    @Field(() => [String], { nullable: true })
+    subcategories?: string[];
+
+    @Field(() => [String], { nullable: true })
+    awards?: string[];
 }

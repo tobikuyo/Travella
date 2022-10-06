@@ -2,7 +2,7 @@ import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { getTrip } from 'helpers/getTrip';
 import { Restaurant } from 'models';
 import { CreateRestaurantResult, GetTripResult } from 'typeDefs/unions';
-import { CreateRestaurantInput } from 'typeDefs/inputs';
+import { CreateExperienceInput } from 'typeDefs/inputs';
 
 @Resolver()
 export class TripResolver {
@@ -18,7 +18,7 @@ export class TripResolver {
     @Mutation(() => CreateRestaurantResult)
     async createRestaurant(
         @Arg('tripId') tripId: string,
-        @Arg('input') restaurantInput: CreateRestaurantInput
+        @Arg('input') restaurantInput: CreateExperienceInput
     ): Promise<typeof CreateRestaurantResult> {
         try {
             const trip = await getTrip(tripId);
