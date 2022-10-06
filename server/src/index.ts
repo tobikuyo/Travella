@@ -1,13 +1,16 @@
 import 'dotenv/config';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { UserResolver } from 'resolvers/UserResolver';
+import { TripResolver, UserResolver } from 'resolvers';
 import { AppDataSource } from './data-source';
 import { app } from './server';
 
 const main = async () => {
     const apolloServer = new ApolloServer({
-        schema: await buildSchema({ resolvers: [UserResolver], validate: false }),
+        schema: await buildSchema({
+            resolvers: [UserResolver, TripResolver],
+            validate: false
+        }),
         context: ({ req, res }) => ({ req, res })
     });
 
