@@ -2,6 +2,7 @@ import { compare, hash } from 'bcryptjs';
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { checkAuthorization } from 'auth/checkAuthorization';
 import { createAccessToken, createRefreshToken } from 'auth/createTokens';
+import { getCurrentUser } from 'auth/getCurrentUser';
 import { AppContext } from 'interfaces/AppContext';
 import { User } from 'models';
 import { RegisterResult } from 'typeDefs';
@@ -11,6 +12,7 @@ import { LoginResultUnion } from 'typeDefs/unions';
 
 @Resolver()
 export class UserResolver {
+    // Get logged in user's details
     @Query(() => User)
     @UseMiddleware(checkAuthorization)
     async currentUser(@Ctx() { payload }: AppContext): Promise<User | null> {
@@ -19,8 +21,9 @@ export class UserResolver {
         return currentUser;
     }
 
+    // Register new user
     @Mutation(() => RegisterResult)
-    async register(
+    async registerUser(
         @Arg('input') registerInput: RegisterUserInput
     ): Promise<RegisterResult> {
         try {
@@ -37,8 +40,9 @@ export class UserResolver {
         }
     }
 
+    // Login user
     @Mutation(() => LoginResultUnion)
-    async login(
+    async loginUser(
         @Arg('email') email: string,
         @Arg('password') password: string,
         @Ctx() { res }: AppContext

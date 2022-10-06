@@ -12,7 +12,7 @@ export const checkAuthorization: MiddlewareFn<AppContext> = ({ context }, next) 
         const payload = verify(accessToken, process.env.ACCESS_TOKEN_SECRET!);
         context.payload = payload as AppJwtPayload;
     } catch (error) {
-        console.error('Verify Token ', error.message);
+        console.error('Verify Token Error', error.message);
         throw new Error('Please provide correct authentication details');
     }
 
