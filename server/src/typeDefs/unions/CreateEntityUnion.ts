@@ -1,8 +1,8 @@
 import { createUnionType } from 'type-graphql';
 import { CreateEntitySuccess, ResolverError } from 'typeDefs';
 
-export const CreateTripResult = createUnionType({
-    name: 'CreateTripResult',
+export const CreateEntityResult = createUnionType({
+    name: 'CreateEntityResult',
     types: () => [CreateEntitySuccess, ResolverError] as const,
     resolveType: value => {
         if ('id' in value) return CreateEntitySuccess;

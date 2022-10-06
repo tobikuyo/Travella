@@ -8,7 +8,7 @@ import { Trip, User } from 'models';
 import { RegisterResult } from 'typeDefs';
 import { UserType } from 'typeDefs/enums/UserType';
 import { CreateTripInput, RegisterUserInput } from 'typeDefs/inputs';
-import { CreateTripResult, LoginResult } from 'typeDefs/unions';
+import { CreateEntityResult, LoginResult } from 'typeDefs/unions';
 
 @Resolver()
 export class UserResolver {
@@ -66,7 +66,7 @@ export class UserResolver {
     }
 
     // Create trip
-    @Mutation(() => CreateTripResult)
+    @Mutation(() => CreateEntityResult)
     @UseMiddleware(checkAuthorization)
     async createTrip(
         @Arg('input') createTripInput: CreateTripInput,

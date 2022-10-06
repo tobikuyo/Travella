@@ -1,4 +1,3 @@
-export { CreateRestaurantResult } from './CreateRestaurantUnion';
-export { CreateTripResult } from './CreateTripResultUnion';
+export { CreateEntityResult } from './CreateEntityUnion';
 export { GetTripResult } from './GetTripResultUnion';
 export { LoginResult } from './LoginResultUnion';
