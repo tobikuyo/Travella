@@ -10,9 +10,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn
 } from 'typeorm';
-import { Comment } from './Comment';
-import { Experience } from './Experience';
-import { User } from './User';
+import { Attraction, Comment, Hotel, Restaurant, User } from '.';
 
 @Entity('trips')
 @ObjectType()
@@ -37,8 +35,8 @@ export class Trip extends BaseEntity {
     @Field()
     createdAt: Date;
 
-    @ManyToOne(() => User, user => user.createdTrips)
-    @Field(() => User)
+    @ManyToOne(() => User, user => user.createdTrips, { nullable: false })
+    @Field(() => User, { nullable: false })
     creator: User;
 
     @ManyToMany(() => User, user => user.joinedTrips)
@@ -46,11 +44,19 @@ export class Trip extends BaseEntity {
     @Field(() => [User])
     participants?: User[];
 
-    @OneToMany(() => Experience, experience => experience.trip)
-    @Field(() => [Experience])
-    experiences?: Experience[];
+    @OneToMany(() => Restaurant, restaurant => restaurant.trip, { nullable: true })
+    @Field(() => [Restaurant], { nullable: true })
+    restaurants?: Restaurant[];
 
-    @OneToMany(() => Comment, comment => comment.trip)
-    @Field(() => [Comment])
+    @OneToMany(() => Hotel, hotel => hotel.trip, { nullable: true })
+    @Field(() => [Hotel], { nullable: true })
+    hotels?: Hotel[];
+
+    @OneToMany(() => Attraction, attraction => attraction.trip, { nullable: true })
+    @Field(() => [Attraction], { nullable: true })
+    attractions?: Attraction[];
+
+    @OneToMany(() => Comment, comment => comment.trip, { nullable: true })
+    @Field(() => [Comment], { nullable: true })
     comments?: Comment[];
 }
