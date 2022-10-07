@@ -1,9 +1,8 @@
 import { compare, hash } from 'bcryptjs';
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
-import { checkAuthorization } from 'auth/checkAuthorization';
-import { createAccessToken, createRefreshToken } from 'auth/createTokens';
-import { getCurrentUser } from 'helpers/getCurrentUser';
+import { createAccessToken, createRefreshToken } from 'helpers/createTokens';
 import { AppContext } from 'interfaces/AppContext';
+import { checkUserAuthorization } from 'middleware';
 import { Trip, User } from 'models';
 import { RegisterResult } from 'typeDefs';
 import { UserType } from 'typeDefs/enums/UserType';
@@ -14,10 +13,9 @@ import { CreateEntityResult, LoginResult } from 'typeDefs/unions';
 export class UserResolver {
     // Get logged in user's details
     @Query(() => User)
-    @UseMiddleware(checkAuthorization)
-    async currentUser(@Ctx() { payload }: AppContext): Promise<User | null> {
-        if (!payload) return null;
-        const currentUser = await getCurrentUser(payload);
+    @UseMiddleware(checkUserAuthorization)
+    async getCurrentUser(@Ctx() { currentUser }: AppContext): Promise<User | null> {
+        if (!currentUser) return null;
         return currentUser;
     }
 
@@ -67,17 +65,15 @@ export class UserResolver {
 
     // Create trip
     @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkAuthorization)
+    @UseMiddleware(checkUserAuthorization)
     async createTrip(
         @Arg('input') createTripInput: CreateTripInput,
-        @Ctx() { payload }: AppContext
+        @Ctx() { currentUser }: AppContext
     ) {
         try {
-            if (!payload) return { message: 'Please provide valid payload' };
-            const user = await getCurrentUser(payload);
             const tripInsertResult = await Trip.insert({
                 ...createTripInput,
-                creator: user
+                creator: currentUser
             });
             const { id } = tripInsertResult.identifiers[0];
             return { id };
