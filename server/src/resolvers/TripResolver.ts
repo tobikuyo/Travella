@@ -1,29 +1,41 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
-import { getTrip } from 'helpers/getTrip';
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { AppContext } from 'interfaces/AppContext';
 import { Restaurant } from 'models';
-import { CreateRestaurantResult, GetTripResult } from 'typeDefs/unions';
+import {
+    checkUserAuthorization,
+    checkAuthorizedMembers,
+    checkTripExists
+} from 'middleware';
 import { CreateExperienceInput } from 'typeDefs/inputs';
+import { CreateEntityResult, GetTripResult } from 'typeDefs/unions';
 
 @Resolver()
 export class TripResolver {
     // Get trip details
     @Query(() => GetTripResult)
-    async getTrip(@Arg('id') id: string): Promise<typeof GetTripResult> {
-        const trip = await getTrip(id);
-        if (trip) return trip;
-        return { message: `There is no trip with the id '${id}'` };
+    @UseMiddleware(checkTripExists)
+    @UseMiddleware(checkUserAuthorization)
+    @UseMiddleware(checkAuthorizedMembers)
+    async getTrip(
+        @Ctx() { trip }: AppContext,
+        @Arg('tripId') tripId: string,
+        @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
+    ): Promise<typeof GetTripResult> {
+        if (!trip) return { message: `There is no trip with the id '${tripId}'` };
+        return trip;
     }
 
     // Add restaurant to trip
-    @Mutation(() => CreateRestaurantResult)
-    async createRestaurant(
-        @Arg('tripId') tripId: string,
-        @Arg('input') restaurantInput: CreateExperienceInput
-    ): Promise<typeof CreateRestaurantResult> {
+    @Mutation(() => CreateEntityResult)
+    @UseMiddleware(checkTripExists)
+    @UseMiddleware(checkUserAuthorization)
+    @UseMiddleware(checkAuthorizedMembers)
+    async addRestaurant(
+        @Ctx() { trip }: AppContext,
+        @Arg('input') restaurantInput: CreateExperienceInput,
+        @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
+    ): Promise<typeof CreateEntityResult> {
         try {
-            const trip = await getTrip(tripId);
-            if (!trip) return { message: `There is no trip with the id '${tripId}'` };
-
             const restaurant = await Restaurant.insert({ ...restaurantInput, trip });
             const { id } = restaurant.identifiers[0];
             return { id };
