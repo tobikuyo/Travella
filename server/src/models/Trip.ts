@@ -39,6 +39,13 @@ export class Trip extends BaseEntity {
     @Field(() => User, { nullable: false })
     creator: User;
 
+    @Column('simple-array', { nullable: true })
+    @Field(() => [String], {
+        nullable: true,
+        description: 'A list of emails that the creator has invited to join the trip'
+    })
+    invitees?: string[];
+
     @ManyToMany(() => User, user => user.joinedTrips)
     @JoinTable()
     @Field(() => [User])
