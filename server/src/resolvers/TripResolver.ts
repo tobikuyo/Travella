@@ -1,12 +1,14 @@
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { AppContext } from 'interfaces/AppContext';
 import {
-    checkUserAuthorization,
     checkAuthorizedMembers,
+    checkEntityCreator,
+    checkUserAuthorization,
     checkTripExists
 } from 'middleware';
-import { Attraction, Hotel, Restaurant } from 'models';
-import { CreateExperienceInput } from 'typeDefs/inputs';
+import { Trip } from 'models';
+import { DeleteEntityResult } from 'typeDefs';
+import { CreateTripInput } from 'typeDefs/inputs';
 import { CreateEntityResult, GetTripResult } from 'typeDefs/unions';
 
 @Resolver()
@@ -25,63 +27,43 @@ export class TripResolver {
         return trip;
     }
 
-    // Add restaurant to trip
+    // Create trip
     @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkTripExists)
     @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkAuthorizedMembers)
-    async addRestaurant(
-        @Ctx() { trip }: AppContext,
-        @Arg('input') restaurantInput: CreateExperienceInput,
-        @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
-    ): Promise<typeof CreateEntityResult> {
+    async createTrip(
+        @Arg('input') createTripInput: CreateTripInput,
+        @Ctx() { currentUser }: AppContext
+    ) {
         try {
-            const restaurant = await Restaurant.insert({ ...restaurantInput, trip });
-            const { id } = restaurant.identifiers[0];
+            const tripInsertResult = await Trip.insert({
+                ...createTripInput,
+                creator: currentUser
+            });
+            const { id } = tripInsertResult.identifiers[0];
             return { id };
         } catch (error) {
-            console.error('Create Restaurant Error', error);
+            console.error('Create Trip Error:', error);
             return { message: error.message };
         }
     }
 
-    // Add hotel to trip
-    @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkTripExists)
+    // Delete trip
+    @Mutation(() => DeleteEntityResult)
     @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkAuthorizedMembers)
-    async addHotel(
-        @Ctx() { trip }: AppContext,
-        @Arg('input') hotelInput: CreateExperienceInput,
-        @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
-    ): Promise<typeof CreateEntityResult> {
+    @UseMiddleware(checkEntityCreator)
+    async deleteTrip(
+        @Arg('tripId') id: string,
+        @Arg('type') _type: string = 'trip'
+    ): Promise<DeleteEntityResult> {
         try {
-            const hotel = await Hotel.insert({ ...hotelInput, trip });
-            const { id } = hotel.identifiers[0];
-            return { id };
+            await Trip.delete(id);
+            return {
+                success: true,
+                message: `Trip with id '${id}' was deleted successfully`
+            };
         } catch (error) {
-            console.error('Create Hotel Error', error);
-            return { message: error.message };
-        }
-    }
-
-    // Add attraction to trip
-    @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkAuthorizedMembers)
-    async addAttraction(
-        @Ctx() { trip }: AppContext,
-        @Arg('input') attractionInput: CreateExperienceInput,
-        @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
-    ): Promise<typeof CreateEntityResult> {
-        try {
-            const attraction = await Attraction.insert({ ...attractionInput, trip });
-            const { id } = attraction.identifiers[0];
-            return { id };
-        } catch (error) {
-            console.error('Create Attraction Error', error);
-            return { message: error.message };
+            console.error('Delete Trip Error:', error);
+            return { success: false, message: error.message };
         }
     }
 }
