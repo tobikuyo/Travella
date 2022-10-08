@@ -7,7 +7,8 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
 } from 'typeorm';
 import { Trip } from './Trip';
 import { User } from './User';
@@ -26,6 +27,10 @@ export class Comment extends BaseEntity {
     @CreateDateColumn({ name: 'created_at' })
     @Field(() => Date)
     createdAt: Date;
+
+    @UpdateDateColumn({ name: 'updated_at' })
+    @Field(() => Date)
+    updatedAt: Date;
 
     @ManyToMany(() => User, user => user.id)
     @JoinTable()
