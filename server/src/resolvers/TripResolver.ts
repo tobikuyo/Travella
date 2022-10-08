@@ -40,7 +40,7 @@ export class TripResolver {
                 creator: currentUser
             });
             const { id } = tripInsertResult.identifiers[0];
-            return { id };
+            return { id, success: true };
         } catch (error) {
             console.error('Create Trip Error:', error);
             return { message: error.message };
@@ -49,11 +49,12 @@ export class TripResolver {
 
     // Delete trip
     @Mutation(() => DeleteEntityResult)
+    @UseMiddleware(checkTripExists)
     @UseMiddleware(checkUserAuthorization)
     @UseMiddleware(checkEntityCreator)
     async deleteTrip(
         @Arg('tripId') id: string,
-        @Arg('type') _type: string = 'trip'
+        @Arg('type', { defaultValue: 'trip' }) _type: string
     ): Promise<DeleteEntityResult> {
         try {
             await Trip.delete(id);

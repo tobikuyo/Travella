@@ -4,4 +4,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 export class CreateEntitySuccess {
     @Field(() => ID)
     id: string;
+
+    @Field()
+    success: boolean;
 }

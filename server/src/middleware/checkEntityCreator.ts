@@ -30,7 +30,7 @@ export const checkEntityCreator: MiddlewareFn<AppContext> = async (
         }
     } catch (error) {
         console.error('Entity Creator Error:', error.message);
-        return { message: error.message };
+        return { success: false, message: error.message };
     }
 
     return next();

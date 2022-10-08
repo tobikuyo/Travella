@@ -4,4 +4,7 @@ import { Field, ObjectType } from 'type-graphql';
 export class ResolverError {
     @Field()
     message: string;
+
+    @Field({ defaultValue: false })
+    success?: boolean;
 }

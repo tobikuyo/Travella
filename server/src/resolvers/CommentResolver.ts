@@ -28,7 +28,7 @@ export class CommentResolver {
                 trip
             });
             const { id } = comment.identifiers[0];
-            return { id };
+            return { id, success: true };
         } catch (error) {
             console.error('Create Comment Error', error);
             return { message: error.message };

@@ -24,7 +24,7 @@ export class ExperienceResolver {
         try {
             const restaurant = await Restaurant.insert({ ...restaurantInput, trip });
             const { id } = restaurant.identifiers[0];
-            return { id };
+            return { id, success: true };
         } catch (error) {
             console.error('Create Restaurant Error', error);
             return { message: error.message };
@@ -44,7 +44,7 @@ export class ExperienceResolver {
         try {
             const hotel = await Hotel.insert({ ...hotelInput, trip });
             const { id } = hotel.identifiers[0];
-            return { id };
+            return { id, success: true };
         } catch (error) {
             console.error('Create Hotel Error', error);
             return { message: error.message };
@@ -64,7 +64,7 @@ export class ExperienceResolver {
         try {
             const attraction = await Attraction.insert({ ...attractionInput, trip });
             const { id } = attraction.identifiers[0];
-            return { id };
+            return { id, success: true };
         } catch (error) {
             console.error('Create Attraction Error', error);
             return { message: error.message };

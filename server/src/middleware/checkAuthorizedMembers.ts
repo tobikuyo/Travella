@@ -20,7 +20,7 @@ export const checkAuthorizedMembers: MiddlewareFn<AppContext> = async (
             : args.invitedUserEmail;
         const invitedUser = trip?.invitees?.includes(invitedUserEmail);
 
-        if (!isTripCreator || !currentUserWasInvited || !invitedUser) {
+        if (!isTripCreator && !currentUserWasInvited && !invitedUser) {
             throw new Error(
                 'You are not authorised to view or make any changes to this trip'
             );
