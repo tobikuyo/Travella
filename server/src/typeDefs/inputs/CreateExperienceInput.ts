@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from 'type-graphql';
+import { Field, ID, InputType, Int } from 'type-graphql';
 
 @InputType()
 export class CreateExperienceInput {
@@ -40,4 +40,7 @@ export class CreateExperienceInput {
 
     @Field(() => [String], { nullable: true })
     awards?: string[];
+
+    @Field(() => ID)
+    tripId: string;
 }
