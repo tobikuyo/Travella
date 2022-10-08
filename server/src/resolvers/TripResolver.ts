@@ -8,8 +8,8 @@ import {
 } from 'middleware';
 import { Trip } from 'models';
 import { DeleteEntityResult } from 'typeDefs';
-import { CreateTripInput } from 'typeDefs/inputs';
-import { CreateEntityResult, GetTripResult } from 'typeDefs/unions';
+import { CreateTripInput, UpdateTripInput } from 'typeDefs/inputs';
+import { CreateEntityResult, GetTripResult, UpdateEntityResult } from 'typeDefs/unions';
 
 @Resolver()
 export class TripResolver {
@@ -44,6 +44,25 @@ export class TripResolver {
         } catch (error) {
             console.error('Create Trip Error:', error);
             return { message: error.message };
+        }
+    }
+
+    // Update trip details
+    @Mutation(() => UpdateEntityResult)
+    @UseMiddleware(checkTripExists)
+    @UseMiddleware(checkUserAuthorization)
+    @UseMiddleware(checkEntityCreator)
+    async updateTrip(
+        @Arg('tripId') id: string,
+        @Arg('input') updateTripInput: UpdateTripInput
+    ): Promise<typeof UpdateEntityResult> {
+        try {
+            const updatedTrip = await Trip.update(id, { ...updateTripInput });
+            console.log('updatedTrip ', updatedTrip);
+            return { success: true, message: 'Trip details were updated successfully' };
+        } catch (error) {
+            console.error('Update Trip Error:', error);
+            return { success: false, message: error.message };
         }
     }
 

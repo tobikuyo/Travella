@@ -8,7 +8,8 @@ import {
     ManyToMany,
     ManyToOne,
     OneToMany,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
 } from 'typeorm';
 import { Attraction, Comment, Hotel, Restaurant, User } from '.';
 
@@ -34,6 +35,10 @@ export class Trip extends BaseEntity {
     @CreateDateColumn({ name: 'created_at' })
     @Field()
     createdAt: Date;
+
+    @UpdateDateColumn({ name: 'updated_at' })
+    @Field()
+    updatedAt: Date;
 
     @ManyToOne(() => User, user => user.createdTrips, { nullable: false })
     @Field(() => User, { nullable: false })
