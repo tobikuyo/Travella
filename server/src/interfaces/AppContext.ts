@@ -6,4 +6,5 @@ export interface AppContext {
     res: Response;
     currentUser?: User;
     trip?: Trip;
+    isTripCreator?: boolean;
 }
