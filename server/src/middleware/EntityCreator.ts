@@ -2,7 +2,7 @@ import { MiddlewareFn } from 'type-graphql';
 import { AppContext } from 'interfaces/AppContext';
 import { Comment, Reaction } from 'models';
 
-export const checkEntityCreator: MiddlewareFn<AppContext> = async (
+export const EntityCreator: MiddlewareFn<AppContext> = async (
     { args, context },
     next
 ) => {

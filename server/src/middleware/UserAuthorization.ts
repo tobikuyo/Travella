@@ -4,12 +4,12 @@ import { AppContext } from 'interfaces/AppContext';
 import { AppJwtPayload } from 'interfaces/AppJwtPayload';
 import { User } from 'models';
 
-export const checkUserAuthorization: MiddlewareFn<AppContext> = async (
+export const UserAuthorization: MiddlewareFn<AppContext> = async (
     { args, context },
     next
 ) => {
     // An email would be sent for a temporary user, instead of an authorization header.
-    // In that case, the checkAuthorizedMembers middleware, will validate the request.
+    // In that case, the AuthorizedMembers middleware, will validate the request.
     if (args?.invitedUserEmail) return next();
 
     const authorization = context.req.headers['authorization'];

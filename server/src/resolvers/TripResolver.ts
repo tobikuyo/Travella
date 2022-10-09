@@ -1,10 +1,10 @@
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { AppContext } from 'interfaces/AppContext';
 import {
-    checkAuthorizedMembers,
-    checkEntityCreator,
-    checkUserAuthorization,
-    checkTripExists
+    AuthorizedMembers,
+    EntityCreator,
+    UserAuthorization,
+    TripExists
 } from 'middleware';
 import { Trip } from 'models';
 import { DeleteEntityResult } from 'typeDefs';
@@ -15,9 +15,7 @@ import { CreateEntityResult, GetTripResult, UpdateEntityResult } from 'typeDefs/
 export class TripResolver {
     // Get trip details
     @Query(() => GetTripResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkAuthorizedMembers)
+    @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async getTrip(
         @Ctx() { trip }: AppContext,
         @Arg('tripId') tripId: string,
@@ -29,7 +27,7 @@ export class TripResolver {
 
     // Create trip
     @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkUserAuthorization)
+    @UseMiddleware(UserAuthorization)
     async createTrip(
         @Arg('input') createTripInput: CreateTripInput,
         @Ctx() { currentUser }: AppContext
@@ -49,9 +47,7 @@ export class TripResolver {
 
     // Update trip details
     @Mutation(() => UpdateEntityResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkEntityCreator)
+    @UseMiddleware(TripExists, UserAuthorization, EntityCreator)
     async updateTrip(
         @Arg('tripId') id: string,
         @Arg('input') updateTripInput: UpdateTripInput
@@ -68,9 +64,7 @@ export class TripResolver {
 
     // Delete trip
     @Mutation(() => DeleteEntityResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkEntityCreator)
+    @UseMiddleware(TripExists, UserAuthorization, EntityCreator)
     async deleteTrip(
         @Arg('tripId') id: string,
         @Arg('type', { defaultValue: 'trip' }) _type: string

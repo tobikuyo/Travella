@@ -1,4 +1,4 @@
-export { checkUserAuthorization } from './checkAuthorization';
-export { checkAuthorizedMembers } from './checkAuthorizedMembers';
-export { checkEntityCreator } from './checkEntityCreator';
-export { checkTripExists } from './checkTripExists';
+export { UserAuthorization } from './UserAuthorization';
+export { AuthorizedMembers } from './AuthorizedMembers';
+export { EntityCreator } from './EntityCreator';
+export { TripExists } from './TripExists';

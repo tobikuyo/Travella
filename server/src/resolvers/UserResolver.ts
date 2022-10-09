@@ -2,11 +2,7 @@ import { compare, hash } from 'bcryptjs';
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { createAccessToken, createRefreshToken } from 'helpers/createTokens';
 import { AppContext } from 'interfaces/AppContext';
-import {
-    checkAuthorizedMembers,
-    checkTripExists,
-    checkUserAuthorization
-} from 'middleware';
+import { AuthorizedMembers, TripExists, UserAuthorization } from 'middleware';
 import { User } from 'models';
 import { RegisterResult } from 'typeDefs';
 import { UserType } from 'typeDefs/enums/UserType';
@@ -17,7 +13,7 @@ import { LoginResult } from 'typeDefs/unions';
 export class UserResolver {
     // Get logged in user's details
     @Query(() => User)
-    @UseMiddleware(checkUserAuthorization)
+    @UseMiddleware(UserAuthorization)
     async getCurrentUser(@Ctx() { currentUser }: AppContext): Promise<User | null> {
         if (!currentUser) return null;
         return currentUser;
@@ -69,8 +65,7 @@ export class UserResolver {
 
     // Create temp user for specific trip
     @Mutation(() => RegisterResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkAuthorizedMembers)
+    @UseMiddleware(TripExists, AuthorizedMembers)
     async createTempUser(
         @Ctx() context: AppContext,
         @Arg('invitedUserInput') invitedUserInput: CreateTempUserInput

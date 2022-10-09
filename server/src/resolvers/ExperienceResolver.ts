@@ -1,10 +1,6 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import { AppContext } from 'interfaces/AppContext';
-import {
-    checkAuthorizedMembers,
-    checkTripExists,
-    checkUserAuthorization
-} from 'middleware';
+import { AuthorizedMembers, TripExists, UserAuthorization } from 'middleware';
 import { Attraction, Hotel, Restaurant } from 'models';
 import { CreateExperienceInput } from 'typeDefs/inputs';
 import { CreateEntityResult } from 'typeDefs/unions';
@@ -13,9 +9,7 @@ import { CreateEntityResult } from 'typeDefs/unions';
 export class ExperienceResolver {
     // Add restaurant to trip
     @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkAuthorizedMembers)
+    @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async addRestaurant(
         @Ctx() { trip }: AppContext,
         @Arg('input') restaurantInput: CreateExperienceInput,
@@ -33,9 +27,7 @@ export class ExperienceResolver {
 
     // Add hotel to trip
     @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkAuthorizedMembers)
+    @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async addHotel(
         @Ctx() { trip }: AppContext,
         @Arg('input') hotelInput: CreateExperienceInput,
@@ -53,9 +45,7 @@ export class ExperienceResolver {
 
     // Add attraction to trip
     @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkAuthorizedMembers)
+    @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async addAttraction(
         @Ctx() { trip }: AppContext,
         @Arg('input') attractionInput: CreateExperienceInput,

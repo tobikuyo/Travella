@@ -1,7 +1,7 @@
 import { MiddlewareFn } from 'type-graphql';
 import { AppContext } from 'interfaces/AppContext';
 
-export const checkAuthorizedMembers: MiddlewareFn<AppContext> = async (
+export const AuthorizedMembers: MiddlewareFn<AppContext> = async (
     { args, context },
     next
 ) => {
@@ -11,6 +11,8 @@ export const checkAuthorizedMembers: MiddlewareFn<AppContext> = async (
         // Checks if the currently logged user was the creator of the trip
         // or in the invitees list.
         const isTripCreator = trip?.creator.id === currentUser?.id;
+        context.isTripCreator = isTripCreator;
+
         const currentUserWasInvited =
             currentUser && trip?.invitees?.includes(currentUser.email);
 
@@ -26,7 +28,7 @@ export const checkAuthorizedMembers: MiddlewareFn<AppContext> = async (
             );
         }
     } catch (error) {
-        console.error('Invited User Authorization Error:', error.message);
+        console.error('Authorized Members Error:', error.message);
         return { message: error.message };
     }
 

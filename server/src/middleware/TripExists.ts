@@ -2,10 +2,7 @@ import { MiddlewareFn } from 'type-graphql';
 import { getTrip } from 'helpers/getTrip';
 import { AppContext } from 'interfaces/AppContext';
 
-export const checkTripExists: MiddlewareFn<AppContext> = async (
-    { args, context },
-    next
-) => {
+export const TripExists: MiddlewareFn<AppContext> = async ({ args, context }, next) => {
     try {
         const { tripId } = args.input ? args.input : args;
         const trip = await getTrip(tripId);

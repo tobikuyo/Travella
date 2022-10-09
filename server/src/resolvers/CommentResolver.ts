@@ -1,9 +1,5 @@
 import { AppContext } from 'interfaces/AppContext';
-import {
-    checkAuthorizedMembers,
-    checkTripExists,
-    checkUserAuthorization
-} from 'middleware';
+import { AuthorizedMembers, TripExists, UserAuthorization } from 'middleware';
 import { Comment } from 'models';
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import { CreateCommentInput } from 'typeDefs/inputs';
@@ -13,9 +9,7 @@ import { CreateEntityResult } from 'typeDefs/unions';
 export class CommentResolver {
     // Add comment to trip
     @Mutation(() => CreateEntityResult)
-    @UseMiddleware(checkTripExists)
-    @UseMiddleware(checkUserAuthorization)
-    @UseMiddleware(checkAuthorizedMembers)
+    @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async addComment(
         @Ctx() { trip, currentUser }: AppContext,
         @Arg('input') commentInput: CreateCommentInput,
