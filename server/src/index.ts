@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import {
+    AttractionResolver,
     CommentResolver,
     HotelResolver,
     RestaurantResolver,
@@ -16,6 +17,7 @@ const main = async () => {
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
             resolvers: [
+                AttractionResolver,
                 CommentResolver,
                 HotelResolver,
                 RestaurantResolver,

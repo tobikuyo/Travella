@@ -1,3 +1,4 @@
+export { AttractionResolver } from './AttractionResolver';
 export { CommentResolver } from './CommentResolver';
 export { HotelResolver } from './HotelResolver';
 export { RestaurantResolver } from './RestaurantResolver';
