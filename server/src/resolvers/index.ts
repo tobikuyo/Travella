@@ -1,4 +1,4 @@
 export { CommentResolver } from './CommentResolver';
-export { ExperienceResolver } from './ExperienceResolver';
+export { RestaurantResolver } from './RestaurantResolver';
 export { TripResolver } from './TripResolver';
 export { UserResolver } from './UserResolver';
