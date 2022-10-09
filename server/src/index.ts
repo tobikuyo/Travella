@@ -4,6 +4,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import {
     CommentResolver,
+    HotelResolver,
     RestaurantResolver,
     TripResolver,
     UserResolver
@@ -14,7 +15,13 @@ import { app } from './server';
 const main = async () => {
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [CommentResolver, RestaurantResolver, TripResolver, UserResolver],
+            resolvers: [
+                CommentResolver,
+                HotelResolver,
+                RestaurantResolver,
+                TripResolver,
+                UserResolver
+            ],
             validate: false
         }),
         context: ({ req, res }) => ({ req, res })
