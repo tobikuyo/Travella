@@ -1,23 +1,65 @@
 import { MiddlewareFn } from 'type-graphql';
 import { AppContext } from 'interfaces/AppContext';
-import { Comment, Reaction } from 'models';
+import { Attraction, Comment, Hotel, Reaction, Restaurant, Trip } from 'models';
 
 export const EntityCreator: MiddlewareFn<AppContext> = async (
     { args, context },
     next
 ) => {
     try {
-        const { type } = args;
-        const { currentUser, trip } = context;
+        const { type, id, tripId } = args;
+        const { currentUser } = context;
 
-        const reaction = await Reaction.findOneBy({ id: args?.reactionId });
-        const comment = await Comment.findOneBy({ id: args?.commentId });
+        const experienceFilter = {
+            where: { id },
+            relations: { trip: true }
+        };
 
-        const isTripCreator = currentUser === trip?.creator;
-        const isReactionCreator = currentUser === reaction?.user;
-        const isCommentAuthor = currentUser === comment?.author;
+        const restaurant = await Restaurant.findOne(experienceFilter);
+        const hotel = await Hotel.findOne(experienceFilter);
+        const attraction = await Attraction.findOne(experienceFilter);
 
-        if ((type === 'trip' || type === 'experience') && !isTripCreator) {
+        const reaction = await Reaction.findOne({
+            relations: { user: true },
+            where: { id }
+        });
+
+        const comment = await Comment.findOne({
+            relations: { author: true },
+            where: { id }
+        });
+
+        let trip: Trip | null | undefined;
+
+        if (type === 'trip') {
+            trip = await Trip.findOne({
+                relations: { creator: true },
+                where: { id: tripId }
+            });
+
+            if (!trip) throw new Error(`There is no trip with the id '${tripId}'`);
+        }
+
+        if (type === 'restaurant') {
+            trip = restaurant?.trip;
+        }
+
+        if (type === 'hotel') {
+            trip = hotel?.trip;
+        }
+
+        if (type === 'attraction') {
+            trip = attraction?.trip;
+        }
+
+        const isTripCreator = currentUser?.id === trip?.creator?.id;
+        const isReactionCreator = currentUser?.id === reaction?.user.id;
+        const isCommentAuthor = currentUser?.id === comment?.author.id;
+
+        if (
+            type === ('trip' || 'restaurant' || 'hotel' || 'attraction') &&
+            !isTripCreator
+        ) {
             throw new Error("Only the trips's creator can delete it");
         }
 
@@ -30,7 +72,7 @@ export const EntityCreator: MiddlewareFn<AppContext> = async (
         }
     } catch (error) {
         console.error('Entity Creator Error:', error.message);
-        return { success: false, message: error.message };
+        return { message: error.message };
     }
 
     return next();

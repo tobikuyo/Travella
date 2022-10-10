@@ -11,8 +11,6 @@ export const AuthorizedMembers: MiddlewareFn<AppContext> = async (
         // Checks if the currently logged user was the creator of the trip
         // or in the invitees list.
         const isTripCreator = trip?.creator.id === currentUser?.id;
-        context.isTripCreator = isTripCreator;
-
         const currentUserWasInvited =
             currentUser && trip?.invitees?.includes(currentUser.email);
 

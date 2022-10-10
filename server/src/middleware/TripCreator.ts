@@ -7,10 +7,8 @@ import { Attraction, Hotel, Restaurant, Trip } from 'models';
 // these entities from a trip.
 export const TripCreator: MiddlewareFn<AppContext> = async ({ args, context }, next) => {
     const { type, id } = args;
-    const { currentUser, isTripCreator } = context;
+    const { currentUser } = context;
     const errorMessage = 'Only the trip creator can delete from the trip';
-
-    if (isTripCreator === true) return next();
 
     try {
         let experience;
