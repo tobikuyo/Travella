@@ -7,7 +7,9 @@ import {
     ManyToOne,
     PrimaryGeneratedColumn
 } from 'typeorm';
-import { Experience } from './Experience';
+import { Attraction } from './Attraction';
+import { Hotel } from './Hotel';
+import { Restaurant } from './Restaurant';
 import { User } from './User';
 
 @Entity('reactions')
@@ -29,7 +31,15 @@ export class Reaction extends BaseEntity {
     @Field(() => User)
     user: User;
 
-    @ManyToOne(() => Experience, experience => experience.id)
-    @Field(() => Experience)
-    experience: Experience;
+    @ManyToOne(() => Restaurant, restaurant => restaurant.id)
+    @Field(() => Restaurant)
+    restaurant?: Restaurant;
+
+    @ManyToOne(() => Hotel, hotel => hotel.id)
+    @Field(() => Hotel)
+    hotel?: Hotel;
+
+    @ManyToOne(() => Attraction, attraction => attraction.id)
+    @Field(() => Attraction)
+    attraction?: Attraction;
 }
