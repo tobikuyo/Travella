@@ -2,7 +2,7 @@ import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql
 import { AppContext } from 'interfaces/AppContext';
 import {
     AuthorizedMembers,
-    TripCreator,
+    EntityCreator,
     TripExists,
     UserAuthorization
 } from 'middleware';
@@ -17,12 +17,16 @@ export class RestaurantResolver {
     @Query(() => GetRestaurantResult)
     @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async getRestaurant(
-        @Arg('restaurantId') id: string,
+        @Arg('id') id: string,
         @Arg('tripId') _tripId: string,
         @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
     ): Promise<typeof GetRestaurantResult> {
         try {
-            const restaurant = await Restaurant.findOneBy({ id });
+            const restaurant = await Restaurant.findOne({
+                where: { id },
+                relations: { reactions: true, trip: true }
+            });
+
             if (restaurant) return restaurant;
             throw new Error(`There is no restaurant with the id '${id}'`);
         } catch (error) {
@@ -51,7 +55,7 @@ export class RestaurantResolver {
 
     // Delete restaurant
     @Mutation(() => DeleteEntityResult)
-    @UseMiddleware(UserAuthorization, TripCreator)
+    @UseMiddleware(UserAuthorization, EntityCreator)
     async deleteRestaurant(
         @Arg('id') id: string,
         @Arg('type', { defaultValue: 'restaurant' }) _type: string

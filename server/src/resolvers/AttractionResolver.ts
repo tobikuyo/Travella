@@ -2,7 +2,7 @@ import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql
 import { AppContext } from 'interfaces/AppContext';
 import {
     AuthorizedMembers,
-    TripCreator,
+    EntityCreator,
     TripExists,
     UserAuthorization
 } from 'middleware';
@@ -22,7 +22,11 @@ export class AttractionResolver {
         @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
     ): Promise<typeof GetAttractionResult> {
         try {
-            const attraction = await Attraction.findOneBy({ id });
+            const attraction = await Attraction.findOne({
+                where: { id },
+                relations: { reactions: true, trip: true }
+            });
+
             if (attraction) return attraction;
             throw new Error(`There is no attraction with the id '${id}'`);
         } catch (error) {
@@ -51,7 +55,7 @@ export class AttractionResolver {
 
     // Delete attraction
     @Mutation(() => DeleteEntityResult)
-    @UseMiddleware(UserAuthorization, TripCreator)
+    @UseMiddleware(UserAuthorization, EntityCreator)
     async deleteAttraction(
         @Arg('id') id: string,
         @Arg('type', { defaultValue: 'attraction' }) _type: string
