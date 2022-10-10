@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { Trip, User } from 'models';
+import { Experience, Trip, User } from 'models';
 
 export interface AppContext {
     req: Request;
     res: Response;
     currentUser?: User;
     trip?: Trip;
-    isTripCreator?: boolean;
+    experience?: Experience;
 }

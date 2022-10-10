@@ -6,6 +6,7 @@ import {
     AttractionResolver,
     CommentResolver,
     HotelResolver,
+    ReactionResolver,
     RestaurantResolver,
     TripResolver,
     UserResolver
@@ -20,6 +21,7 @@ const main = async () => {
                 AttractionResolver,
                 CommentResolver,
                 HotelResolver,
+                ReactionResolver,
                 RestaurantResolver,
                 TripResolver,
                 UserResolver
