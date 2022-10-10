@@ -1,13 +1,5 @@
 import { Field, ID, Int, ObjectType } from 'type-graphql';
-import {
-    BaseEntity,
-    Column,
-    Entity,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn
-} from 'typeorm';
-import { Reaction } from './Reaction';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Trip } from './Trip';
 
 @Entity('experiences')
@@ -60,8 +52,4 @@ export abstract class Experience extends BaseEntity {
     @ManyToOne(() => Trip, trip => trip.id)
     @Field(() => Trip)
     trip: Trip;
-
-    @OneToMany(() => Reaction, reaction => reaction.id)
-    @Field(() => [Reaction])
-    reactions?: Reaction[];
 }
