@@ -195,4 +195,28 @@ describe('User Failure', () => {
             "You can't sign in with a temporary account"
         );
     });
+
+    it('attempts to get details for a non-existing user', async () => {
+        // Create trip for 'TripExists' middleware
+        const { data: tripData } = await graphqlCall({
+            source: CreateTripMutation,
+            context: { req },
+            variableValues: { input: tripInput }
+        });
+
+        tripId = tripData?.createTrip?.id;
+
+        const { data } = await graphqlCall({
+            source: GetUserQuery,
+            context: { req },
+            variableValues: {
+                input: {
+                    userId: faker.datatype.uuid(),
+                    tripId
+                }
+            }
+        });
+
+        expect(data?.getUser?.message).toContain('There is no user with the id');
+    });
 });
