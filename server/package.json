@@ -40,6 +40,7 @@
     "scripts": {
         "start": "ts-node ./dist.index.js",
         "dev": "NODE_PATH=./src nodemon ./src/index.ts",
+        "test": "jest --runInBand --verbose --silent --coverage --collectCoverageFrom='src/resolvers/**/*.{ts,tsx}' --collectCoverageFrom='!src/resolvers/index.ts'",
         "watch": "tsc -w",
         "typeorm": "typeorm-ts-node-commonjs"
     }

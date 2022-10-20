@@ -5,6 +5,8 @@ import { TestDataSource } from 'test-utils/data-source';
 import { graphqlCall } from 'test-utils/graphqlCall';
 import { CreateTripMutation } from './mutations/TripMutations';
 import { LoginMutation, RegisterMutation } from './mutations/UserMutations';
+import { GetTripQuery } from './queries/TripQueries';
+import { Trip } from 'models';
 
 const user = {
     name: faker.name.firstName(),
@@ -61,5 +63,22 @@ describe('Trip Success', () => {
 
         tripId = data?.createTrip?.id;
         expect(data?.createTrip?.id).toBeDefined();
+    });
+
+    it('get trip details', async () => {
+        const { data } = await graphqlCall({
+            source: GetTripQuery,
+            context: {
+                req,
+                trip: {} as Trip
+            },
+            variableValues: { tripId }
+        });
+
+        const { destination, departureDate, createdAt, comments } = data?.getTrip;
+        expect(destination).toBe(tripInput.destination);
+        expect(departureDate).toBe(tripInput.departureDate);
+        expect(createdAt).toBeDefined();
+        expect(comments.length).toEqual(0);
     });
 });
