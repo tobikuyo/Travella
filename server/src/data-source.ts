@@ -1,14 +1,4 @@
 import { DataSource } from 'typeorm';
-import {
-    Attraction,
-    Comment,
-    Experience,
-    Hotel,
-    Reaction,
-    Restaurant,
-    Trip,
-    User
-} from 'models';
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
@@ -19,7 +9,7 @@ export const AppDataSource = new DataSource({
     database: process.env.POSTGRES_DATABASE,
     synchronize: true,
     logging: true,
-    entities: [Comment, Experience, Reaction, Trip, User, Attraction, Restaurant, Hotel],
+    entities: [__dirname + '/./models/*.ts'],
     migrations: [],
     subscribers: []
 });

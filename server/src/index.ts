@@ -1,33 +1,13 @@
 import 'dotenv/config';
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
-import {
-    AttractionResolver,
-    CommentResolver,
-    HotelResolver,
-    ReactionResolver,
-    RestaurantResolver,
-    TripResolver,
-    UserResolver
-} from 'resolvers';
 import { AppDataSource } from './data-source';
 import { app } from './server';
+import { createSchema } from 'helpers/createSchema';
 
 const main = async () => {
     const apolloServer = new ApolloServer({
-        schema: await buildSchema({
-            resolvers: [
-                AttractionResolver,
-                CommentResolver,
-                HotelResolver,
-                ReactionResolver,
-                RestaurantResolver,
-                TripResolver,
-                UserResolver
-            ],
-            validate: false
-        }),
+        schema: await createSchema(),
         context: ({ req, res }) => ({ req, res })
     });
 
