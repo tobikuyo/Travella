@@ -1,11 +1,15 @@
 import 'dotenv/config';
 import { faker } from '@faker-js/faker';
 import { getMockRes, getMockReq } from '@jest-mock/express';
-import { User } from 'models';
+import { Trip, User } from 'models';
 import { TestDataSource } from 'test-utils/data-source';
 import { graphqlCall } from 'test-utils/graphqlCall';
 import { CreateTripMutation } from './mutations/TripMutations';
-import { LoginMutation, RegisterMutation } from './mutations/UserMutations';
+import {
+    CreateTempUserMutation,
+    LoginMutation,
+    RegisterMutation
+} from './mutations/UserMutations';
 import { GetCurrentUserQuery, GetUserQuery } from './queries/UserQueries';
 
 const user = {
@@ -115,5 +119,24 @@ describe('User Success', () => {
         expect(name).toBe(user.name);
         expect(email).toBe(user.email);
         expect(type).toBe('Registered');
+    });
+
+    it('creates a temp user', async () => {
+        const { data: userData } = await graphqlCall({
+            source: CreateTempUserMutation,
+            context: {
+                trip: {} as Trip
+            },
+            variableValues: {
+                input: {
+                    ...tempUser,
+                    tripId
+                }
+            }
+        });
+
+        const { success, message } = userData?.createTempUser;
+        expect(success).toBe(true);
+        expect(message).toBe('Temp user created successfully');
     });
 });
