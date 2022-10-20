@@ -1,12 +1,16 @@
 import 'dotenv/config';
 import { faker } from '@faker-js/faker';
 import { getMockReq, getMockRes } from '@jest-mock/express';
+import { Trip } from 'models';
 import { TestDataSource } from 'test-utils/data-source';
 import { graphqlCall } from 'test-utils/graphqlCall';
-import { CreateTripMutation } from './mutations/TripMutations';
+import {
+    CreateTripMutation,
+    DeleteTripMutation,
+    UpdateTripMutation
+} from './mutations/TripMutations';
 import { LoginMutation, RegisterMutation } from './mutations/UserMutations';
 import { GetTripQuery } from './queries/TripQueries';
-import { Trip } from 'models';
 
 const user = {
     name: faker.name.firstName(),
@@ -80,5 +84,42 @@ describe('Trip Success', () => {
         expect(departureDate).toBe(tripInput.departureDate);
         expect(createdAt).toBeDefined();
         expect(comments.length).toEqual(0);
+    });
+
+    it('updates trip details', async () => {
+        const { data } = await graphqlCall({
+            source: UpdateTripMutation,
+            context: {
+                req,
+                trip: {} as Trip
+            },
+            variableValues: {
+                tripId,
+                updateTripInput: {
+                    destination: faker.address.cityName()
+                }
+            }
+        });
+
+        expect(data?.updateTrip?.message).toBe('Trip details were updated successfully');
+        expect(data?.updateTrip?.success).toBe(true);
+    });
+
+    it('deletes a trip', async () => {
+        const { data } = await graphqlCall({
+            source: DeleteTripMutation,
+            context: {
+                req,
+                trip: {} as Trip
+            },
+            variableValues: {
+                tripId
+            }
+        });
+
+        expect(data?.deleteTrip?.success).toBe(true);
+        expect(data?.deleteTrip?.message).toBe(
+            `Trip with id '${tripId}' was deleted successfully`
+        );
     });
 });
