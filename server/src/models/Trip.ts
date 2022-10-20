@@ -4,8 +4,6 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinTable,
-    ManyToMany,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
@@ -25,19 +23,19 @@ export class Trip extends BaseEntity {
     destination: string;
 
     @Column({ name: 'departure_date' })
-    @Field()
+    @Field(() => Date)
     departureDate: Date;
 
     @Column({ name: 'return_date' })
-    @Field()
+    @Field(() => Date)
     returnDate: Date;
 
     @CreateDateColumn({ name: 'created_at' })
-    @Field()
+    @Field(() => Date)
     createdAt: Date;
 
     @UpdateDateColumn({ name: 'updated_at' })
-    @Field()
+    @Field(() => Date)
     updatedAt: Date;
 
     @ManyToOne(() => User, user => user.createdTrips, { nullable: false })
@@ -51,10 +49,9 @@ export class Trip extends BaseEntity {
     })
     invitees?: string[];
 
-    @ManyToMany(() => User, user => user.joinedTrips)
-    @JoinTable()
-    @Field(() => [User])
-    participants?: User[];
+    @Column('simple-array', { nullable: true })
+    @Field(() => [String], { nullable: true })
+    participants?: string[];
 
     @OneToMany(() => Restaurant, restaurant => restaurant.trip)
     @Field(() => [Restaurant])

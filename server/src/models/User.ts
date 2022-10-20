@@ -4,7 +4,6 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    ManyToMany,
     OneToMany,
     PrimaryGeneratedColumn
 } from 'typeorm';
@@ -36,22 +35,22 @@ export class User extends BaseEntity {
     password?: string;
 
     @CreateDateColumn({ name: 'created_at' })
-    @Field()
+    @Field(() => Date)
     createdAt: Date;
 
     @OneToMany(() => Trip, trip => trip.creator)
     @Field(() => Trip, { nullable: true })
     createdTrips?: Trip[];
 
-    @ManyToMany(() => Trip, trip => trip.participants)
-    @Field(() => [Trip], { nullable: true })
-    joinedTrips?: Trip[];
+    @Column('simple-array', { nullable: true })
+    @Field(() => [String], { nullable: true })
+    joinedTrips?: string[];
 
     @OneToMany(() => Reaction, reaction => reaction.user)
-    @Field(() => [Reaction])
+    @Field(() => [Reaction], { nullable: true })
     reactions?: Reaction[];
 
     @OneToMany(() => Comment, comment => comment.author)
-    @Field(() => [Comment])
+    @Field(() => [Comment], { nullable: true })
     comments?: Comment[];
 }
