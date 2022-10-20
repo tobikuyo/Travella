@@ -154,4 +154,30 @@ describe('User Failure', () => {
         expect(success).toBe(false);
         expect(message).toBe('This email has already been registered');
     });
+
+    it('attempts to login with non-existing email', async () => {
+        const { data } = await graphqlCall({
+            source: LoginMutation,
+            context: { res },
+            variableValues: {
+                email: faker.internet.email(),
+                password: user?.password
+            }
+        });
+
+        expect(data?.loginUser?.message).toBe('There is no user with this email');
+    });
+
+    it('attempts to login with the wrong password', async () => {
+        const { data } = await graphqlCall({
+            source: LoginMutation,
+            context: { res },
+            variableValues: {
+                email: user.email,
+                password: faker.internet.password()
+            }
+        });
+
+        expect(data?.loginUser?.message).toBe('Incorrect password');
+    });
 });
