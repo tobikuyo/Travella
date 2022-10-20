@@ -18,10 +18,9 @@ export class TripResolver {
     @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async getTrip(
         @Ctx() { trip }: AppContext,
-        @Arg('tripId') tripId: string,
+        @Arg('tripId') _tripId: string,
         @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
-    ): Promise<typeof GetTripResult> {
-        if (!trip) return { message: `There is no trip with the id '${tripId}'` };
+    ): Promise<Trip | undefined> {
         return trip;
     }
 
@@ -32,17 +31,13 @@ export class TripResolver {
         @Arg('input') createTripInput: CreateTripInput,
         @Ctx() { currentUser }: AppContext
     ) {
-        try {
-            const tripInsertResult = await Trip.insert({
-                ...createTripInput,
-                creator: currentUser
-            });
-            const { id } = tripInsertResult.identifiers[0];
-            return { id, success: true };
-        } catch (error) {
-            console.error('Create Trip Error:', error);
-            return { message: error.message };
-        }
+        const tripInsertResult = await Trip.insert({
+            ...createTripInput,
+            creator: currentUser
+        });
+
+        const { id } = tripInsertResult.identifiers[0];
+        return { id, success: true };
     }
 
     // Update trip details
@@ -52,14 +47,8 @@ export class TripResolver {
         @Arg('tripId') id: string,
         @Arg('input') updateTripInput: UpdateTripInput
     ): Promise<typeof UpdateEntityResult> {
-        try {
-            const updatedTrip = await Trip.update(id, { ...updateTripInput });
-            console.log('updatedTrip ', updatedTrip);
-            return { success: true, message: 'Trip details were updated successfully' };
-        } catch (error) {
-            console.error('Update Trip Error:', error);
-            return { success: false, message: error.message };
-        }
+        await Trip.update(id, { ...updateTripInput });
+        return { success: true, message: 'Trip details were updated successfully' };
     }
 
     // Delete trip
@@ -69,15 +58,10 @@ export class TripResolver {
         @Arg('tripId') id: string,
         @Arg('type', { defaultValue: 'trip' }) _type: string
     ): Promise<DeleteEntityResult> {
-        try {
-            await Trip.delete(id);
-            return {
-                success: true,
-                message: `Trip with id '${id}' was deleted successfully`
-            };
-        } catch (error) {
-            console.error('Delete Trip Error:', error);
-            return { success: false, message: error.message };
-        }
+        await Trip.delete(id);
+        return {
+            success: true,
+            message: `Trip with id '${id}' was deleted successfully`
+        };
     }
 }
