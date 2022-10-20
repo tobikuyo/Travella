@@ -6,16 +6,31 @@ import { AuthorizedMembers, TripExists, UserAuthorization } from 'middleware';
 import { User } from 'models';
 import { RegisterResult } from 'typeDefs';
 import { UserType } from 'typeDefs/enums/UserType';
-import { CreateTempUserInput, RegisterUserInput } from 'typeDefs/inputs';
-import { LoginResult } from 'typeDefs/unions';
+import { CreateTempUserInput, GetUserInput, RegisterUserInput } from 'typeDefs/inputs';
+import { GetUserResult, LoginResult } from 'typeDefs/unions';
 
 @Resolver()
 export class UserResolver {
+    @Query(() => GetUserResult)
+    @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
+    // Get a user's details
+    async getUser(
+        @Arg('input') input: GetUserInput,
+        @Ctx() _context: AppContext
+    ): Promise<typeof GetUserResult> {
+        try {
+            const user = await User.findOneBy({ id: input.userId });
+            if (!user) throw new Error(`There is no user with the id '${input.userId}'`);
+            return user;
+        } catch (error) {
+            return { message: error.message };
+        }
+    }
+
     // Get logged in user's details
     @Query(() => User)
     @UseMiddleware(UserAuthorization)
-    async getCurrentUser(@Ctx() { currentUser }: AppContext): Promise<User | null> {
-        if (!currentUser) return null;
+    async getCurrentUser(@Ctx() { currentUser }: AppContext): Promise<User | undefined> {
         return currentUser;
     }
 
@@ -47,7 +62,7 @@ export class UserResolver {
     ): Promise<typeof LoginResult> {
         try {
             const user = await User.findOneBy({ email });
-            if (!user) throw new Error('There is no  user with this email');
+            if (!user) throw new Error('There is no user with this email');
             if (user.type === UserType.Temp) {
                 throw new Error("You can't sign in with a temporary account");
             }
@@ -68,20 +83,15 @@ export class UserResolver {
     @UseMiddleware(TripExists, AuthorizedMembers)
     async createTempUser(
         @Ctx() context: AppContext,
-        @Arg('invitedUserInput') invitedUserInput: CreateTempUserInput
+        @Arg('input') invitedUserInput: CreateTempUserInput
     ): Promise<RegisterResult> {
-        try {
-            const userInsertResult = await User.insert({ ...invitedUserInput });
-            const { id } = userInsertResult.identifiers[0];
+        const userInsertResult = await User.insert({ ...invitedUserInput });
+        const { id } = userInsertResult.identifiers[0];
 
-            // At this point there shouldn't be a current user stored in context, so this
-            // user can be stored, to use for 'Reaction' and 'Comment' mutations.
-            const createdUser = await User.findOneBy({ id });
-            context.currentUser = createdUser as User;
-            return { success: true, message: 'Temp user created successfully' };
-        } catch (error) {
-            console.error('Create Temp User Error:');
-            return { success: false, message: error.message };
-        }
+        // At this point there shouldn't be a current user stored in context, so this
+        // user can be stored, to use for 'Reaction' and 'Comment' mutations.
+        const createdUser = await User.findOneBy({ id });
+        context.currentUser = createdUser as User;
+        return { success: true, message: 'Temp user created successfully' };
     }
 }
