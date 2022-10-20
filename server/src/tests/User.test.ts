@@ -180,4 +180,19 @@ describe('User Failure', () => {
 
         expect(data?.loginUser?.message).toBe('Incorrect password');
     });
+
+    it('attempts to login with a temp user', async () => {
+        const { data } = await graphqlCall({
+            source: LoginMutation,
+            context: { res },
+            variableValues: {
+                email: tempUser.email,
+                password: faker.internet.password()
+            }
+        });
+
+        expect(data?.loginUser?.message).toBe(
+            "You can't sign in with a temporary account"
+        );
+    });
 });
