@@ -10,7 +10,7 @@ export const UserAuthorization: MiddlewareFn<AppContext> = async (
 ) => {
     // An email would be sent for a temporary user, instead of an authorization header.
     // In that case, the AuthorizedMembers middleware, will validate the request.
-    if (args?.invitedUserEmail) return next();
+    if (args?.invitedUserEmail || args?.input?.email) return next();
 
     const authorization = context.req.headers['authorization'];
     if (!authorization) throw new Error('You need a valid access token');

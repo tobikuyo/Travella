@@ -15,9 +15,7 @@ export const AuthorizedMembers: MiddlewareFn<AppContext> = async (
             currentUser && trip?.invitees?.includes(currentUser.email);
 
         // Checks if the provided email, is indeed included in the invitees list.
-        const invitedUserEmail = args.invitedUserInput
-            ? args.invitedUserInput.email
-            : args.invitedUserEmail;
+        const invitedUserEmail = args.input ? args.input.email : args.invitedUserEmail;
         const invitedUser = trip?.invitees?.includes(invitedUserEmail);
 
         if (!isTripCreator && !currentUserWasInvited && !invitedUser) {
