@@ -4,7 +4,7 @@ import { Trip } from './Trip';
 
 @Entity('experiences')
 @ObjectType()
-export abstract class Experience extends BaseEntity {
+export class Experience extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     @Field(() => ID)
     readonly id: string;

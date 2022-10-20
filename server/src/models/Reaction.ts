@@ -24,7 +24,7 @@ export class Reaction extends BaseEntity {
     like?: boolean;
 
     @CreateDateColumn({ name: 'created_at' })
-    @Field()
+    @Field(() => Date)
     createdAt: Date;
 
     @ManyToOne(() => User, user => user.id)
@@ -32,14 +32,14 @@ export class Reaction extends BaseEntity {
     user: User;
 
     @ManyToOne(() => Restaurant, restaurant => restaurant.id)
-    @Field(() => Restaurant)
+    @Field(() => Restaurant, { nullable: true })
     restaurant?: Restaurant;
 
     @ManyToOne(() => Hotel, hotel => hotel.id)
-    @Field(() => Hotel)
+    @Field(() => Hotel, { nullable: true })
     hotel?: Hotel;
 
     @ManyToOne(() => Attraction, attraction => attraction.id)
-    @Field(() => Attraction)
+    @Field(() => Attraction, { nullable: true })
     attraction?: Attraction;
 }
