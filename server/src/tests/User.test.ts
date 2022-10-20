@@ -140,3 +140,18 @@ describe('User Success', () => {
         expect(message).toBe('Temp user created successfully');
     });
 });
+
+describe('User Failure', () => {
+    it('fails to register a user with an existing email', async () => {
+        const { data } = await graphqlCall({
+            source: RegisterMutation,
+            variableValues: {
+                registerInput: user
+            }
+        });
+
+        const { success, message } = data?.registerUser;
+        expect(success).toBe(false);
+        expect(message).toBe('This email has already been registered');
+    });
+});
