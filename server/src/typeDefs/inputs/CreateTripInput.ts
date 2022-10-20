@@ -10,4 +10,7 @@ export class CreateTripInput {
 
     @Field()
     returnDate: Date;
+
+    @Field(() => [String], { nullable: true })
+    invitees?: string[];
 }
