@@ -56,6 +56,13 @@ export const EntityCreator: MiddlewareFn<AppContext> = async (
         const isReactionCreator = currentUser?.id === reaction?.user.id;
         const isCommentAuthor = currentUser?.id === comment?.author.id;
 
+        if (type === 'trip' && !trip) return next();
+        if (type === 'restaurant' && !restaurant) return next();
+        if (type === 'hotel' && !hotel) return next();
+        if (type === 'attraction' && !attraction) return next();
+        if (type === 'reaction' && !reaction) return next();
+        if (type === 'comment' && !comment) return next();
+
         if (
             type === ('trip' || 'restaurant' || 'hotel' || 'attraction') &&
             !isTripCreator
