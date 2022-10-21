@@ -4,8 +4,6 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinTable,
-    ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
@@ -32,8 +30,7 @@ export class Comment extends BaseEntity {
     @Field(() => Date)
     updatedAt: Date;
 
-    @ManyToMany(() => User, user => user.id)
-    @JoinTable()
+    @ManyToOne(() => User, user => user.comments)
     @Field(() => User)
     author: User;
 
