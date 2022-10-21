@@ -7,9 +7,9 @@ import {
     UserAuthorization
 } from 'middleware';
 import { Hotel } from 'models';
-import { DeleteEntityResult } from 'typeDefs';
+import { CreateEntity, DeleteEntityResult } from 'typeDefs';
 import { CreateExperienceInput } from 'typeDefs/inputs';
-import { CreateEntityResult, GetHotelResult } from 'typeDefs/unions';
+import { GetHotelResult } from 'typeDefs/unions';
 
 @Resolver()
 export class HotelResolver {
@@ -36,21 +36,16 @@ export class HotelResolver {
     }
 
     // Add hotel to trip
-    @Mutation(() => CreateEntityResult)
+    @Mutation(() => CreateEntity)
     @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async addHotel(
         @Ctx() { trip }: AppContext,
         @Arg('input') hotelInput: CreateExperienceInput,
         @Arg('invitedUserEmail', { nullable: true }) _invitedUserEmail?: string
-    ): Promise<typeof CreateEntityResult> {
-        try {
-            const hotel = await Hotel.insert({ ...hotelInput, trip });
-            const { id } = hotel.identifiers[0];
-            return { id, success: true };
-        } catch (error) {
-            console.error('Create Hotel Error:', error);
-            return { message: error.message };
-        }
+    ): Promise<CreateEntity> {
+        const hotel = await Hotel.insert({ ...hotelInput, trip });
+        const { id } = hotel.identifiers[0];
+        return { id, success: true };
     }
 
     // Delete hotel
@@ -61,10 +56,15 @@ export class HotelResolver {
         @Arg('type', { defaultValue: 'hotel' }) _type: string
     ): Promise<DeleteEntityResult> {
         try {
+            const hotel = await Hotel.findOneBy({ id });
+            if (!hotel) {
+                throw new Error(`There is no hotel with the id '${id}'`);
+            }
+
             await Hotel.delete({ id });
             return {
                 success: true,
-                message: `Hotel with id '${id} was deleted successfully`
+                message: `Hotel with id '${id}' was deleted successfully`
             };
         } catch (error) {
             console.error('Delete Hotel Error:', error);
