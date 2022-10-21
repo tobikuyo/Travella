@@ -7,14 +7,14 @@ import {
     TripExists
 } from 'middleware';
 import { Trip } from 'models';
-import { DeleteEntityResult } from 'typeDefs';
+import { CreateEntity, DeleteEntityResult } from 'typeDefs';
 import { CreateTripInput, UpdateTripInput } from 'typeDefs/inputs';
-import { CreateEntityResult, GetTripResult, UpdateEntityResult } from 'typeDefs/unions';
+import { UpdateEntityResult } from 'typeDefs/unions';
 
 @Resolver()
 export class TripResolver {
     // Get trip details
-    @Query(() => GetTripResult)
+    @Query(() => Trip)
     @UseMiddleware(TripExists, UserAuthorization, AuthorizedMembers)
     async getTrip(
         @Ctx() { trip }: AppContext,
@@ -25,7 +25,7 @@ export class TripResolver {
     }
 
     // Create trip
-    @Mutation(() => CreateEntityResult)
+    @Mutation(() => CreateEntity)
     @UseMiddleware(UserAuthorization)
     async createTrip(
         @Arg('input') createTripInput: CreateTripInput,

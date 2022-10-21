@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { faker } from '@faker-js/faker';
 import { getMockReq, getMockRes } from '@jest-mock/express';
-import { Trip } from 'models';
+import { Trip, User } from 'models';
 import { TestDataSource } from 'test-utils/data-source';
 import { graphqlCall } from 'test-utils/graphqlCall';
 import {
@@ -12,7 +12,7 @@ import {
 import { LoginMutation, RegisterMutation } from './mutations/UserMutations';
 import { GetTripQuery } from './queries/TripQueries';
 
-const user = {
+const user: Partial<User> = {
     name: faker.name.firstName(),
     email: faker.internet.email(),
     password: faker.internet.password()
@@ -57,7 +57,7 @@ afterAll(async () => {
     await TestDataSource.destroy();
 });
 
-describe('Trip Success', () => {
+describe('Trip', () => {
     it('creates a trip', async () => {
         const { data } = await graphqlCall({
             source: CreateTripMutation,
@@ -84,6 +84,19 @@ describe('Trip Success', () => {
         expect(departureDate).toBe(tripInput.departureDate);
         expect(createdAt).toBeDefined();
         expect(comments.length).toEqual(0);
+    });
+
+    it('attempts to get details for a non-existing trip', async () => {
+        const response = await graphqlCall({
+            source: GetTripQuery,
+            context: {
+                req,
+                trip: {} as Trip
+            },
+            variableValues: { tripId: faker.datatype.uuid() }
+        });
+
+        expect(response.errors).toBeDefined();
     });
 
     it('updates trip details', async () => {

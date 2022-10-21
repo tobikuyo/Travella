@@ -1,13 +1,8 @@
 export const CreateTripMutation = `
     mutation($input: CreateTripInput!) {
         createTrip(input: $input) {
-            ...on CreateEntitySuccess {
-                id
-            }
-
-            ...on ResolverError {
-                message
-            }
+            id
+            success
         }
     }   
 `;
