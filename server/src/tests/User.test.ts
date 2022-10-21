@@ -4,6 +4,7 @@ import { getMockRes, getMockReq } from '@jest-mock/express';
 import { Trip, User } from 'models';
 import { TestDataSource } from 'test-utils/data-source';
 import { graphqlCall } from 'test-utils/graphqlCall';
+import { UserType } from 'typeDefs/enums/UserType';
 import { CreateTripMutation } from './mutations/TripMutations';
 import {
     CreateTempUserMutation,
@@ -12,16 +13,16 @@ import {
 } from './mutations/UserMutations';
 import { GetCurrentUserQuery, GetUserQuery } from './queries/UserQueries';
 
-const user = {
+const user: Partial<User> = {
     name: faker.name.firstName(),
     email: faker.internet.email(),
     password: faker.internet.password()
 };
 
-const tempUser = {
+const tempUser: Partial<User> = {
     name: faker.name.firstName(),
     email: faker.internet.email(),
-    type: 'Temp'
+    type: UserType.Temp
 };
 
 const tripInput = {
@@ -94,7 +95,7 @@ describe('User Success', () => {
         expect(id).toBeDefined();
         expect(name).toBe(user.name);
         expect(email).toBe(user.email);
-        expect(type).toBe('Registered');
+        expect(type).toBe(UserType.Registered);
         expect(createdAt).toBeDefined();
     });
 
@@ -118,7 +119,7 @@ describe('User Success', () => {
         const { name, email, type } = data?.getUser;
         expect(name).toBe(user.name);
         expect(email).toBe(user.email);
-        expect(type).toBe('Registered');
+        expect(type).toBe(UserType.Registered);
     });
 
     it('creates a temp user', async () => {
