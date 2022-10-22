@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "Server for Travella",
     "type": "commonjs",
+    "private": "true",
     "devDependencies": {
         "@faker-js/faker": "^7.6.0",
         "@types/bcryptjs": "^2.4.2",
@@ -41,11 +42,12 @@
         "typeorm-extension": "^2.1.15"
     },
     "scripts": {
-        "start": "NODE_PATH=./src ts-node ./dist.index.js",
+        "start": "NODE_PATH=./src ts-node ./dist/index.js",
         "dev": "NODE_PATH=./src nodemon ./src/index.ts",
-        "db:setup": "NODE_PATH=./src ts-node ./src/test-utils/databaseSetup.ts",
-        "test": "yarn run db:setup && jest --runInBand --collectCoverageFrom='src/resolvers/**/*.{ts,tsx}' --collectCoverageFrom='!src/resolvers/index.ts'",
-        "test:coverage": "yarn run db:setup && jest --runInBand",
+        "db:create": "NODE_PATH=./src ts-node ./src/test-utils/createDatabase.ts",
+        "db:drop": "NODE_PATH=./src ts-node ./src/test-utils/dropDatabase.ts",
+        "test": "yarn run db:create && jest --runInBand --collectCoverageFrom='src/resolvers/**/*.{ts,tsx}' --collectCoverageFrom='!src/resolvers/index.ts' && yarn run db:drop",
+        "test:coverage": "yarn run db:create && jest --runInBand && yarn run db:drop",
         "watch": "tsc -w",
         "typeorm": "typeorm-ts-node-commonjs"
     }
