@@ -30,7 +30,7 @@ export class RestaurantResolver {
             if (restaurant) return restaurant;
             throw new Error(`There is no restaurant with the id '${id}'`);
         } catch (error) {
-            console.error('Get Restaurant Error:', error);
+            console.error('Get Restaurant Error:', error.message);
             return { message: error.message };
         }
     }
@@ -67,7 +67,7 @@ export class RestaurantResolver {
                 message: `Restaurant with id '${id}' was deleted successfully`
             };
         } catch (error) {
-            console.error('Delete Restaurant Error:', error);
+            console.error('Delete Restaurant Error:', error.message);
             return { success: false, message: error.message };
         }
     }

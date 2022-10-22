@@ -30,7 +30,7 @@ export class AttractionResolver {
             if (attraction) return attraction;
             throw new Error(`There is no attraction with the id '${id}'`);
         } catch (error) {
-            console.error('Get Attraction Error:', error);
+            console.error('Get Attraction Error:', error.message);
             return { message: error.message };
         }
     }
@@ -67,7 +67,7 @@ export class AttractionResolver {
                 message: `Attraction with id '${id}' was deleted successfully`
             };
         } catch (error) {
-            console.error('Delete Attraction Error:', error);
+            console.error('Delete Attraction Error:', error.message);
             return { success: false, message: error.message };
         }
     }

@@ -48,7 +48,7 @@ export class UserResolver {
             await User.insert({ ...registerInput, password: hashedPassword });
             return { success: true, message: 'User was registered successfully' };
         } catch (error) {
-            console.error('Register User Error:', error);
+            console.error('Register User Error:', error.message);
             return { success: false, message: error.message };
         }
     }
@@ -73,7 +73,7 @@ export class UserResolver {
             res.cookie('gid', createRefreshToken(user), { httpOnly: true });
             return { accessToken: createAccessToken(user) };
         } catch (error) {
-            console.error('Login User Error:', error);
+            console.error('Login User Error:', error.message);
             return { message: error.message };
         }
     }

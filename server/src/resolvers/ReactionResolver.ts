@@ -85,7 +85,7 @@ export class ReactionResolver {
                 message: `Reaction with id '${id}' was deleted successfully`
             };
         } catch (error) {
-            console.error('Delete Reaction Error:', error);
+            console.error('Delete Reaction Error:', error.message);
             return { success: false, message: error.message };
         }
     }

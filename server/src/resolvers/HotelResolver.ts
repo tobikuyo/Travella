@@ -30,7 +30,7 @@ export class HotelResolver {
             if (hotel) return hotel;
             throw new Error(`There is no hotel with the id '${id}'`);
         } catch (error) {
-            console.error('Get Hotel Error:', error);
+            console.error('Get Hotel Error:', error.message);
             return { message: error.message };
         }
     }
@@ -67,7 +67,7 @@ export class HotelResolver {
                 message: `Hotel with id '${id}' was deleted successfully`
             };
         } catch (error) {
-            console.error('Delete Hotel Error:', error);
+            console.error('Delete Hotel Error:', error.message);
             return { success: false, message: error.message };
         }
     }

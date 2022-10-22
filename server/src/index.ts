@@ -23,5 +23,5 @@ const main = async () => {
 };
 
 main().catch(error => {
-    console.error('Server Error =>', error);
+    console.error('Server Error:', error.message);
 });
