@@ -2,16 +2,20 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { button, flexCenter, heroBackground } from 'styles/mixins';
 
+interface HeadingProps {
+    helperBelow?: boolean;
+}
+
 export const Hero = styled.div`
     ${flexCenter};
     ${heroBackground}
 `;
 
-export const Heading = styled.h1`
+export const Heading = styled.h1<HeadingProps>`
     font-size: clamp(2rem, 6vw, 4rem);
     text-transform: capitalize;
     color: var(--color-heading-dark);
-    padding-block: 8rem 2rem;
+    padding-block: 8rem ${({ helperBelow }) => (helperBelow ? '1rem' : '2rem')};
     width: 90vw;
 `;
 

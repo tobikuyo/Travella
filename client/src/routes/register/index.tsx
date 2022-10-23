@@ -5,7 +5,7 @@ import { Input } from 'components';
 import { RegisterUser } from 'interfaces/User';
 import { Heading } from 'styles';
 import { registerSchema } from 'validations';
-import { Form, Submit, SubText } from './Register.styles';
+import { Form, Submit, HelperText } from './Register.styles';
 
 const Register = () => {
     const {
@@ -23,7 +23,10 @@ const Register = () => {
 
     return (
         <Form>
-            <Heading>Create account</Heading>
+            <Heading helperBelow>Create account</Heading>
+            <HelperText>
+                Already registered? <span>Login</span>
+            </HelperText>
             <Input
                 name="name"
                 placeholder="Name"
@@ -45,9 +48,6 @@ const Register = () => {
                 error={errors?.password?.message}
             />
             <Submit />
-            <SubText>
-                Already registered? <span>Login</span>
-            </SubText>
         </Form>
     );
 };

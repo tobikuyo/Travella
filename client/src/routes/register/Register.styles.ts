@@ -22,7 +22,8 @@ export const Form = styled.form`
     }
 `;
 
-export const SubText = styled(Text)`
+export const HelperText = styled(Text)`
+    margin-bottom: 2rem;
     color: #222;
 
     span {

@@ -34,6 +34,7 @@ export const button = () => css`
         &:hover {
             transform: translateY(-3px);
             box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
 
         &:active {
