@@ -1,4 +1,5 @@
-import { Heading, HeroContainer, StyledLink, Text } from './Landing.styles';
+import { Heading, Text } from 'styles';
+import { HeroContainer, StyledLink } from './Landing.styles';
 
 const Landing = () => {
     return (

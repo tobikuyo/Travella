@@ -1,13 +1,7 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { flexCenter } from 'styles/mixins';
+import { AppStyledLink, Hero } from 'styles';
 
-export const HeroContainer = styled.div`
-    ${flexCenter};
-    height: 100vh;
-    color: var(--color-text-dark);
-    background-size: cover;
-    background-position: center;
+export const HeroContainer = styled(Hero)`
     background-image: linear-gradient(
             rgba(238, 238, 238, 1) 20%,
             rgba(238, 238, 238, 0.4) 40%,
@@ -26,39 +20,6 @@ export const HeroContainer = styled.div`
     }
 `;
 
-export const Heading = styled.h1`
-    font-size: clamp(2rem, 6vw, 4rem);
-    padding-block: 8rem 2rem;
-    width: 90vw;
-`;
-
-export const Text = styled.p`
-    font-size: max(1.6rem, 1.2vw);
-    line-height: 1.8;
-    width: 80vw;
-
-    @media (min-width: 820px) {
-        width: 100vw;
-    }
-`;
-
-export const StyledLink = styled(Link)`
-    font-size: max(1.6rem, 1.2vw);
-    background-color: var(--color-primary);
+export const StyledLink = styled(AppStyledLink)`
     margin-top: 3rem;
-    padding: 1.5rem 2rem;
-    border-radius: 100vmax;
-    transition: all 0.2s ease-in-out;
-
-    @media (hover: hover) and (pointer: fine) {
-        &:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
-        }
-
-        &:active {
-            transform: translateY(-1px);
-            box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
-        }
-    }
 `;

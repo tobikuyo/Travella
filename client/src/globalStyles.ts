@@ -3,8 +3,11 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
     :root {
         --color-primary: #4397d6;
-        --color-text-dark: #333;
-        --color-text-light: #eee
+        --color-heading-dark: #333;
+        --color-text-dark: #555;
+        --color-text-light: #eee;
+        --color-border: #c8c8c8;
+        --color-outline: #aaa;
     }
 
     *,
@@ -26,7 +29,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     a,
-    a:visited {
+    a:visited,
+    input[type='submit'] {
         text-decoration: none;
         color: var(--color-text-light);
     }
