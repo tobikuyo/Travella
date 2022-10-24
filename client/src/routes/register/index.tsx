@@ -23,7 +23,7 @@ const Register = () => {
 
     return (
         <Form>
-            <Heading helperBelow>Create account</Heading>
+            <Heading textBelow>Create account</Heading>
             <HelperText>
                 Already registered? <span>Login</span>
             </HelperText>

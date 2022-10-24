@@ -24,10 +24,14 @@ export const Form = styled.form`
 
 export const HelperText = styled(Text)`
     margin-bottom: 2rem;
-    color: #222;
 
     span {
+        color: var(--color-primary);
         font-weight: 600;
+
+        @media (hover: hover) and (pointer: fine) {
+            cursor: pointer;
+        }
     }
 `;
 

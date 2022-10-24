@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { button, flexCenter, heroBackground } from 'styles/mixins';
 
 interface HeadingProps {
-    helperBelow?: boolean;
+    textBelow?: boolean;
 }
 
 export const Hero = styled.div`
@@ -15,7 +15,7 @@ export const Heading = styled.h1<HeadingProps>`
     font-size: clamp(2rem, 6vw, 4rem);
     text-transform: capitalize;
     color: var(--color-heading-dark);
-    padding-block: 8rem ${({ helperBelow }) => (helperBelow ? '1rem' : '2rem')};
+    padding-block: 8rem ${({ textBelow }) => (textBelow ? '1rem' : '2rem')};
     width: 90vw;
 `;
 
@@ -24,6 +24,10 @@ export const Text = styled.p`
     line-height: 1.8;
     width: 80vw;
     color: var(--color-text-dark);
+
+    @media (min-width: 700px) {
+        width: 70vw;
+    }
 
     @media (min-width: 820px) {
         width: 100vw;

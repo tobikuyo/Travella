@@ -6,6 +6,7 @@ export const StyledInput = styled.input`
     outline-color: var(--color-outline);
     background-color: rgba(220, 220, 220, 0.5);
     font-size: max(1.6rem, 1.2vw);
+    font-weight: 500;
     font-family: inherit;
     text-align: inherit;
     color: var(--color-text-dark);
@@ -16,6 +17,10 @@ export const StyledInput = styled.input`
 
     &:first-of-type {
         margin-top: 2rem;
+    }
+
+    &::placeholder {
+        font-weight: 400;
     }
 `;
 
