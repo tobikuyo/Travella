@@ -13,7 +13,7 @@ const main = async () => {
 
     await AppDataSource.initialize();
     await apolloServer.start();
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: false });
 
     const port = process.env.PORT || 4000;
 
