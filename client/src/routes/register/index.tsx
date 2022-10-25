@@ -42,36 +42,34 @@ const Register = () => {
     }, [userLoggedIn, navigate]);
 
     return (
-        <>
-            <AuthForm onSubmit={handleSubmit(onSubmit)}>
-                <Input
-                    name="name"
-                    placeholder="Name"
-                    register={register}
-                    error={errors?.name?.message}
-                />
-                <Input
-                    name="email"
-                    placeholder="Email"
-                    type="email"
-                    register={register}
-                    error={errors?.email?.message}
-                />
-                <Input
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                    register={register}
-                    error={errors?.password?.message}
-                />
-                <SnackbarAlert
-                    text={mutationError ?? mutationSuccess}
-                    severity={severity}
-                    open={showAlert}
-                    setOpen={setShowAlert}
-                />
-            </AuthForm>
-        </>
+        <AuthForm onSubmit={handleSubmit(onSubmit)}>
+            <Input
+                name="name"
+                placeholder="Name"
+                register={register}
+                error={errors?.name?.message}
+            />
+            <Input
+                name="email"
+                placeholder="Email"
+                type="email"
+                register={register}
+                error={errors?.email?.message}
+            />
+            <Input
+                name="password"
+                placeholder="Password"
+                type="password"
+                register={register}
+                error={errors?.password?.message}
+            />
+            <SnackbarAlert
+                text={mutationError ?? mutationSuccess}
+                severity={severity}
+                open={showAlert}
+                setOpen={setShowAlert}
+            />
+        </AuthForm>
     );
 };
 
