@@ -16,7 +16,13 @@ const Input = <T extends FieldValues>({
 }: InputProps<T>) => {
     return (
         <>
-            <StyledInput type={type} id={name} {...rest} {...register(name)} />
+            <StyledInput
+                type={type}
+                id={name}
+                error={error}
+                {...rest}
+                {...register(name)}
+            />
             {/* Displays an error label, if there is an error for the input */}
             {error && <ErrorLabel htmlFor={name}>{error}</ErrorLabel>}
         </>

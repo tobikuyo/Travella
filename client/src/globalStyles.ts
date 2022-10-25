@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
         --color-text-light: #eee;
         --color-border: #c8c8c8;
         --color-outline: #aaa;
+        --color-error: #a2051f
     }
 
     *,

@@ -38,7 +38,7 @@ export const button = () => css`
         }
 
         &:active {
-            transform: translateY(-1px);
+            transform: translateY(0);
             box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
         }
     }
