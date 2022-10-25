@@ -42,11 +42,11 @@ export class UserResolver {
         try {
             const { email, password } = registerInput;
             const existingUser = await User.findOneBy({ email });
-            if (existingUser) throw new Error('This email has already been registered');
+            if (existingUser) throw new Error('Account already exists');
 
             const hashedPassword = await hash(password, 12);
             await User.insert({ ...registerInput, password: hashedPassword });
-            return { success: true, message: 'User was registered successfully' };
+            return { success: true, message: 'Account created successfully' };
         } catch (error) {
             console.error('Register User Error:', error.message);
             return { success: false, message: error.message };
@@ -62,7 +62,7 @@ export class UserResolver {
     ): Promise<typeof LoginResult> {
         try {
             const user = await User.findOneBy({ email });
-            if (!user) throw new Error('There is no user with this email');
+            if (!user) throw new Error('There is no account with this email');
             if (user.type === UserType.Temp) {
                 throw new Error("You can't sign in with a temporary account");
             }
