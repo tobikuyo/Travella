@@ -31,6 +31,7 @@ export const useAuth = () => {
         if (typename === 'LoginSuccess') {
             const { accessToken } = data?.loginUser as LoginSuccess;
             localStorage.setItem('token', accessToken);
+            setUserLoggedIn(true);
         }
 
         if (typename === 'ResolverError') {
@@ -50,7 +51,7 @@ export const useAuth = () => {
         if (data.registerUser.success) {
             setSeverity('success');
             setMutationError(null);
-            setMutationSuccess('Account created successfully');
+            setMutationSuccess(data.registerUser.message);
 
             // If the registration was successful, just log in the user with the same credentials and
             // store the access token in local storage, so that they don't have to repeat this process.

@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthForm, Input, SnackbarAlert } from 'components';
 import { useAuth } from 'hooks/useAuth';
 import { LoginUser } from 'interfaces/User';
-import { registerSchema } from 'validations';
+import { loginSchema } from 'validations';
 
 const Login = () => {
     const {
@@ -14,7 +14,7 @@ const Login = () => {
         setFocus,
         formState: { errors }
     } = useForm<LoginUser>({
-        resolver: yupResolver(registerSchema)
+        resolver: yupResolver(loginSchema)
     });
 
     const {
