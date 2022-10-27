@@ -22,7 +22,7 @@ export const heroBackground = () => css`
 `;
 
 export const button = () => css`
-    font-size: max(1.7rem, 1.2vw);
+    font-size: max(1.7rem, 0.8vw);
     font-family: inherit;
     background-color: var(--color-primary);
     padding: 2rem;

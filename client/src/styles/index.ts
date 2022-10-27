@@ -20,18 +20,9 @@ export const Heading = styled.h1<HeadingProps>`
 `;
 
 export const Text = styled.p`
-    font-size: max(1.6rem, 1.2vw);
+    font-size: max(1.6rem, 0.8vw);
     line-height: 1.8;
-    width: 80vw;
     color: var(--color-text-dark);
-
-    @media (min-width: 700px) {
-        width: 70vw;
-    }
-
-    @media (min-width: 820px) {
-        width: 100vw;
-    }
 `;
 
 export const AppStyledLink = styled(Link)`

@@ -13,7 +13,7 @@ export const StyledInput = styled.input<InputProps>`
         error ? 'var(--color-error)' : 'var(--color-outline)'};
     background-color: ${({ explore }) =>
         explore ? 'transparent' : 'rgba(220, 220, 220, 0.5)'};
-    font-size: max(1.6rem, 1.2vw);
+    font-size: max(1.6rem, 0.8vw);
     font-weight: 500;
     font-family: inherit;
     text-align: inherit;
