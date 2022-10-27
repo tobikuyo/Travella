@@ -22,4 +22,5 @@ export const HeroContainer = styled(Hero)`
 
 export const StyledLink = styled(AppStyledLink)`
     margin-top: 3rem;
+    width: max-content;
 `;
