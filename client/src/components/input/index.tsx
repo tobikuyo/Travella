@@ -5,6 +5,7 @@ type InputProps<T extends FieldValues> = {
     name: Path<T>;
     register: UseFormRegister<T>;
     error: string | undefined;
+    explore?: boolean;
 } & Omit<React.ComponentProps<'input'>, 'name'>;
 
 const Input = <T extends FieldValues>({

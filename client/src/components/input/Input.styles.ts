@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface InputProps {
     error: string | undefined;
+    explore?: boolean;
 }
 
 export const StyledInput = styled.input<InputProps>`
@@ -10,20 +11,17 @@ export const StyledInput = styled.input<InputProps>`
     border-color: ${({ error }) => error && 'var(--color-error)'};
     outline-color: ${({ error }) =>
         error ? 'var(--color-error)' : 'var(--color-outline)'};
-    background-color: rgba(220, 220, 220, 0.5);
+    background-color: ${({ explore }) =>
+        explore ? 'transparent' : 'rgba(220, 220, 220, 0.5)'};
     font-size: max(1.6rem, 1.2vw);
     font-weight: 500;
     font-family: inherit;
     text-align: inherit;
     color: var(--color-text-dark);
-    margin-top: 3rem;
+    margin-top: ${({ explore }) => (explore ? '2rem' : '2.5rem')};
     padding: 1rem 2rem;
-    width: min(65vw, 400px);
+    width: min(75vw, 400px);
     height: 6rem;
-
-    &:first-of-type {
-        margin-top: 2rem;
-    }
 
     &::placeholder {
         font-weight: 400;
