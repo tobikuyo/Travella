@@ -9,8 +9,8 @@ export interface DestinationDetails {
 }
 
 export interface TripDates {
-    departureDate: Date | null;
-    returnDate: Date | null;
+    departureDate: string | null;
+    returnDate: string | null;
 }
 
 export type TripDetails = DestinationDetails & TripDates;

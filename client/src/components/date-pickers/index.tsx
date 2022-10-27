@@ -27,7 +27,16 @@ const TripDatePickers = ({ register, errors, ...rest }: TripDatePickersProps) =>
 
     useEffect(() => {
         if (!departureDate || !returnDate) return;
-        dispatch(updateTripDates({ departureDate, returnDate }));
+
+        const departureDateISO = departureDate.toISOString();
+        const returnDateISO = returnDate.toISOString();
+
+        dispatch(
+            updateTripDates({
+                departureDate: departureDateISO,
+                returnDate: returnDateISO
+            })
+        );
     }, [departureDate, returnDate, dispatch]);
 
     return (
