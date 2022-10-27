@@ -60,7 +60,7 @@ describe('User Success', () => {
         });
 
         const { message, success } = data?.registerUser;
-        expect(message).toBe('User was registered successfully');
+        expect(message).toBe('Account created successfully');
         expect(success).toBe(true);
 
         const createdUser = await User.findOneBy({ email: user.email });
@@ -153,7 +153,7 @@ describe('User Failure', () => {
 
         const { success, message } = data?.registerUser;
         expect(success).toBe(false);
-        expect(message).toBe('This email has already been registered');
+        expect(message).toBe('Account already exists');
     });
 
     it('attempts to login with non-existing email', async () => {
@@ -166,7 +166,7 @@ describe('User Failure', () => {
             }
         });
 
-        expect(data?.loginUser?.message).toBe('There is no user with this email');
+        expect(data?.loginUser?.message).toBe('There is no account with this email');
     });
 
     it('attempts to login with the wrong password', async () => {
