@@ -40,12 +40,6 @@ export const RegisterSubmit = styled.input.attrs({
     value: 'Register'
 })`
     ${button}
-    width: min(65vw, 400px);
-    margin-block: 3rem 2rem;
-
-    &:disabled {
-        background-color: #a9a9a9;
-    }
 `;
 
 export const LoginSubmit = styled.input.attrs({
@@ -53,10 +47,4 @@ export const LoginSubmit = styled.input.attrs({
     value: 'Log In'
 })`
     ${button}
-    width: min(65vw, 400px);
-    margin-block: 3rem 2rem;
-
-    &:disabled {
-        background-color: #a9a9a9;
-    }
 `;

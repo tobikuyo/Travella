@@ -25,10 +25,16 @@ export const button = () => css`
     font-size: max(1.7rem, 1.2vw);
     font-family: inherit;
     background-color: var(--color-primary);
-    padding: 1.5rem 2rem;
+    padding: 2rem;
+    margin-block: 2.5rem;
+    width: min(75vw, 400px);
     border: none;
     border-radius: 100vmax;
     transition: all 0.2s ease-in-out;
+
+    &:disabled {
+        background-color: #a9a9a9;
+    }
 
     @media (hover: hover) and (pointer: fine) {
         &:hover {
