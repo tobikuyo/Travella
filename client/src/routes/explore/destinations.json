@@ -1,0 +1,93 @@
+{
+    "destinations": [
+        {
+            "destination": "Mallorca, Spain",
+            "destinationNaturalFeature": "Majorca",
+            "destinationCountry": "Spain",
+            "destinationBounds": {
+                "ne": {
+                    "lat": 39.96253265746261,
+                    "lng": 3.478596765393518
+                },
+                "sw": {
+                    "lat": 39.26446316950059,
+                    "lng": 2.344706244080034
+                }
+            }
+        },
+        {
+            "destination": "Algarve, Portugal",
+            "destinationCountry": "Portugal",
+            "destinationBounds": {
+                "ne": {
+                    "lat": 37.52913055232065,
+                    "lng": -7.393304840634292
+                },
+                "sw": {
+                    "lat": 36.96171043370397,
+                    "lng": -8.997115762984938
+                }
+            }
+        },
+        {
+            "destination": "Crete, Greece",
+            "destinationNaturalFeature": "Crete",
+            "destinationCountry": "Greece",
+            "destinationBounds": {
+                "ne": {
+                    "lat": 35.69569454391381,
+                    "lng": 26.31895032591595
+                },
+                "sw": {
+                    "lat": 34.92132439815794,
+                    "lng": 23.51463927121635
+                }
+            }
+        },
+        {
+            "destination": "Paris, France",
+            "destinationLocality": "Paris",
+            "destinationCountry": "France",
+            "destinationBounds": {
+                "ne": {
+                    "lat": 48.90214747577797,
+                    "lng": 2.469850925555473
+                },
+                "sw": {
+                    "lat": 48.81556220872687,
+                    "lng": 2.224219054341255
+                }
+            }
+        },
+        {
+            "destination": "Rome, Italy",
+            "destinationLocality": "Rome",
+            "destinationCountry": "Italy",
+            "destinationBounds": {
+                "ne": {
+                    "lat": 42.05054624539585,
+                    "lng": 12.73028878823088
+                },
+                "sw": {
+                    "lat": 41.76959604595655,
+                    "lng": 12.34170704408109
+                }
+            }
+        },
+        {
+            "destination": "Tenerife, Spain",
+            "destinationNaturalFeature": "Tenerife",
+            "destinationCountry": "Spain",
+            "destinationBounds": {
+                "ne": {
+                    "lat": 28.58871679246052,
+                    "lng": -16.11939628047425
+                },
+                "sw": {
+                    "lat": 27.99807257489345,
+                    "lng": -16.92592324921318
+                }
+            }
+        }
+    ]
+}
