@@ -6,6 +6,7 @@ import GlobalStyle from './globalStyles';
 const Landing = lazy(() => import('routes/landing'));
 const Register = lazy(() => import('routes/register'));
 const Login = lazy(() => import('routes/login'));
+const Explore = lazy(() => import('routes/explore'));
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                     <Route index element={<Landing />} />
                     <Route path="register" element={<Register />} />
                     <Route path="login" element={<Login />} />
+                    <Route path="explore" element={<Explore />} />
                 </Route>
             </Routes>
         </Suspense>
